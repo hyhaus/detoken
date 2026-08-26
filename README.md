@@ -37,9 +37,12 @@ public/      ← é exatamente o conteúdo do public_html no servidor
   .htaccess robots.txt sitemap.xml
 
 docs/
+  prompt-claude-code.md     prompts prontos para trabalhar no projeto pelo Claude Code
   prompt-v2-original.md     o prompt que gerou este site
   deploy-hostinger.md       passo a passo de publicação
-  mockups/                  as 5 opções de logo e o simulador do preview do WhatsApp
+  logos-5-opcoes.html       as 5 opções de logo do mascote
+  preview-whatsapp.html     simulador do preview de link no WhatsApp
+  og-alternativa.png        versão alternativa da imagem de preview
 ```
 
 ## Rodar localmente

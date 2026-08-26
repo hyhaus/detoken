@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Detoken — preview no WhatsApp</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b0d10;--panel:#12151a;--panel2:#171b21;--line:#242a33;--line2:#2f3742;
+    --fg:#d7dde6;--dim:#7c8794;--mute:#4f5964;--green:#3ddc84;--amber:#f5b83d;--claude:#D97757;--purple:#b48cff;
+    --mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+    --ui:"Inter",system-ui,-apple-system,Segoe UI,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--fg);font-family:var(--mono);font-size:13px;-webkit-font-smoothing:antialiased}
+  .page{max-width:1340px;margin:0 auto;padding:34px 20px 70px}
+  header h1{font-size:21px;font-weight:800;letter-spacing:-.4px}
+  header p{color:var(--dim);margin-top:6px;max-width:800px;line-height:1.55}
+  .layout{display:grid;grid-template-columns:400px 1fr;gap:28px;margin-top:26px;align-items:start}
+  @media (max-width:980px){.layout{grid-template-columns:1fr}}
+
+  /* ---------------- phone / whatsapp ---------------- */
+  .sticky{position:sticky;top:24px}
+  .modebar{display:flex;gap:8px;margin-bottom:12px}
+  .modebar button{flex:1;background:var(--panel);border:1px solid var(--line);color:var(--dim);font-family:var(--mono);font-size:11px;border-radius:8px;padding:7px;cursor:pointer}
+  .modebar button.on{border-color:var(--green);color:var(--green)}
+  .phone{width:390px;max-width:100%;height:800px;border-radius:44px;background:#000;border:1px solid #2a2f37;box-shadow:0 30px 80px rgba(0,0,0,.6),inset 0 0 0 6px #0c0e12;position:relative;overflow:hidden}
+  .screen{position:absolute;inset:8px;border-radius:38px;overflow:hidden;display:flex;flex-direction:column;font-family:var(--ui)}
+  .notch{position:absolute;top:10px;left:50%;transform:translateX(-50%);width:118px;height:30px;background:#000;border-radius:20px;z-index:6}
+
+  .wa{--wbg:#0b141a;--whead:#202c33;--wout:#005c4b;--win:#202c33;--wtxt:#e9edef;--wsec:#8696a0;--wlink:#53bdeb;--wcard:rgba(0,0,0,.22);--wdoodle:#ffffff}
+  .wa.light{--wbg:#efeae2;--whead:#f0f2f5;--wout:#d9fdd3;--win:#ffffff;--wtxt:#111b21;--wsec:#667781;--wlink:#027eb5;--wcard:rgba(0,0,0,.05);--wdoodle:#000000}
+  .wa{flex:1;display:flex;flex-direction:column;background:var(--wbg);color:var(--wtxt)}
+  .wstatus{height:46px;display:flex;justify-content:space-between;align-items:flex-end;padding:0 26px 5px;font-size:12px;font-weight:600;background:var(--whead)}
+  .whead{background:var(--whead);display:flex;align-items:center;gap:10px;padding:8px 12px 10px}
+  .whead .back{color:var(--wsec);font-size:18px}
+  .avatar{width:38px;height:38px;border-radius:50%;overflow:hidden;flex:none;background:#111}
+  .whead .who{flex:1;min-width:0}
+  .whead .who b{display:block;font-size:15px;font-weight:600;letter-spacing:-.1px}
+  .whead .who span{display:block;font-size:11.5px;color:var(--wsec);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .whead .ico{color:var(--wsec);font-size:15px;margin-left:4px}
+  .chat{flex:1;min-height:0;overflow:auto;padding:14px 10px 8px;position:relative;scrollbar-width:none}
+  .chat::-webkit-scrollbar{display:none}
+  .chat::before{content:"";position:absolute;inset:0;opacity:.05;background-image:var(--doodle);background-size:260px;pointer-events:none}
+  .day{width:max-content;margin:0 auto 12px;background:var(--win);color:var(--wsec);font-size:11px;padding:5px 11px;border-radius:8px;box-shadow:0 1px 1px rgba(0,0,0,.15)}
+  .msg{max-width:86%;border-radius:9px;padding:6px 8px 5px;margin-bottom:9px;box-shadow:0 1px 1px rgba(0,0,0,.18);position:relative;font-size:14.2px;line-height:1.4}
+  .msg.out{background:var(--wout);margin-left:auto;border-top-right-radius:2px}
+  .msg.in{background:var(--win);border-top-left-radius:2px}
+  .msg::after{content:"";display:block;clear:both}
+  .msg .meta{float:right;margin:6px 0 -2px 8px;font-size:10.5px;color:var(--wsec);display:flex;gap:3px;align-items:center}
+  .msg .meta .ck{color:var(--wlink);font-size:11px;letter-spacing:-3px}
+  .msg .sender{font-size:12.5px;font-weight:600;color:#53bdeb;margin-bottom:2px}
+  .msg.in .sender.p2{color:#f0a45c}
+  .card{background:var(--wcard);border-radius:6px;overflow:hidden;margin-bottom:5px}
+  .card .img{display:block;width:100%;aspect-ratio:1.91/1;background:#111}
+  .card .img svg{display:block;width:100%;height:100%}
+  .card .txt{padding:7px 9px 8px}
+  .card .t{font-size:13px;font-weight:600;line-height:1.3;margin-bottom:2px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  .card .d{font-size:12.3px;color:var(--wsec);line-height:1.34;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+  .card .u{font-size:11.5px;color:var(--wsec);margin-top:4px;text-transform:lowercase}
+  .msg .link{color:var(--wlink);text-decoration:underline;word-break:break-all;font-size:14px}
+  .wbar{background:var(--whead);padding:8px 10px 12px;display:flex;gap:8px;align-items:center}
+  .wbar .inp{flex:1;background:var(--win);border-radius:20px;padding:9px 12px;color:var(--wsec);font-size:14px}
+  .wbar .snd{width:40px;height:40px;border-radius:50%;background:#00a884;display:grid;place-items:center;color:#0b141a;font-size:16px;flex:none}
+  .home-ind{position:absolute;bottom:7px;left:50%;transform:translateX(-50%);width:130px;height:5px;border-radius:5px;background:rgba(255,255,255,.35);z-index:5}
+
+  /* ---------------- opções ---------------- */
+  .sec{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px 16px 8px;margin-bottom:16px}
+  .sec > h3{font-size:13.5px;font-weight:700;display:flex;align-items:center;gap:8px}
+  .sec > h3 code{font-size:11px;color:var(--mute);font-weight:400}
+  .sec > .hint{color:var(--mute);font-size:11px;margin:4px 0 10px;line-height:1.5}
+  .opt{display:flex;gap:10px;align-items:flex-start;padding:9px 10px;border:1px solid transparent;border-radius:10px;cursor:pointer;margin-bottom:6px;transition:background .15s,border-color .15s}
+  .opt:hover{background:var(--panel2)}
+  .opt.on{border-color:var(--green);background:rgba(61,220,132,.06)}
+  .opt .dot{width:14px;height:14px;border-radius:50%;border:1.5px solid var(--line2);flex:none;margin-top:2px;position:relative}
+  .opt.on .dot{border-color:var(--green)}
+  .opt.on .dot::after{content:"";position:absolute;inset:3px;border-radius:50%;background:var(--green)}
+  .opt .body{flex:1;min-width:0}
+  .opt .body p{font-size:12.2px;line-height:1.45;color:var(--fg)}
+  .opt .body .n{font-size:10.5px;color:var(--mute);margin-top:3px;line-height:1.4}
+  .opt .len{font-size:10px;color:var(--mute);flex:none;margin-top:3px}
+  .opt .len.bad{color:var(--amber)}
+  .badge{font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;border:1px solid var(--green);color:var(--green);border-radius:999px;padding:1px 6px;margin-left:6px;vertical-align:middle;font-weight:500}
+  .combos{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin:10px 0 12px}
+  .combo{border:1px solid var(--line);background:var(--panel2);border-radius:12px;padding:12px;cursor:pointer;transition:border-color .15s}
+  .combo:hover{border-color:var(--green)}
+  .combo b{font-size:12.5px;display:block}
+  .combo span{display:block;font-size:10.5px;color:var(--mute);margin-top:4px;line-height:1.45}
+  pre{background:#07090b;border:1px solid var(--line);border-radius:10px;padding:12px;overflow:auto;font-size:11px;line-height:1.6;color:var(--dim);margin-top:4px}
+  pre .k{color:var(--purple)} pre .s{color:var(--green)}
+  .foot{margin-top:24px;color:var(--mute);font-size:11px;text-align:center;line-height:1.7}
+</style>
+</head>
+<body>
+<div class="page">
+  <header>
+    <h1>Detoken — como o link chega no WhatsApp</h1>
+    <p>Mockup do cartão de link (o preview que o WhatsApp monta a partir das meta tags <code>og:</code> do site). Clique em qualquer frase à direita e ela entra no celular na hora. As opções marcadas como <span class="badge">escolhida</span> já vêm aplicadas — é o combo que eu mandaria no grupo.</p>
+  </header>
+
+  <div class="layout">
+    <!-- ============ COLUNA 1: CELULAR ============ -->
+    <div class="sticky">
+      <div class="modebar">
+        <button id="mDark" class="on" onclick="mode(0)">WhatsApp escuro</button>
+        <button id="mLight" onclick="mode(1)">claro</button>
+      </div>
+      <div class="phone">
+        <div class="notch"></div>
+        <div class="screen">
+          <div class="wa" id="wa">
+            <div class="wstatus"><span>03:47</span><span>▂▄▆ 4%</span></div>
+            <div class="whead">
+              <span class="back">‹</span>
+              <div class="avatar" id="avatar"></div>
+              <div class="who"><b>Appcoólicos Anônimos</b><span id="members">você, Ellen, Valentina, +11 participantes</span></div>
+              <span class="ico">⌕</span><span class="ico">⋮</span>
+            </div>
+            <div class="chat" id="chat">
+              <div class="day">HOJE</div>
+
+              <div class="msg out">
+                <div class="card">
+                  <div class="img" id="ogimg"></div>
+                  <div class="txt">
+                    <div class="t" id="ogTitle"></div>
+                    <div class="d" id="ogDesc"></div>
+                    <div class="u" id="ogUrl"></div>
+                  </div>
+                </div>
+                <span class="link" id="rawUrl"></span><br>
+                <span id="msgText"></span>
+                <span class="meta">03:47 <span class="ck">✓✓</span></span>
+              </div>
+
+              <div class="msg in" style="max-width:70%">
+                <div class="sender">Ellen</div>
+                <span id="reply1">de novo?</span>
+                <span class="meta">03:48</span>
+              </div>
+
+              <div class="msg in" style="max-width:78%">
+                <div class="sender p2">Valentina</div>
+                <span id="reply2">esse é o 15º domínio .app, Odin</span>
+                <span class="meta">03:49</span>
+              </div>
+
+              <div class="msg out" style="max-width:64%">
+                <span id="reply3">é diferente. esse é o que impede os outros.</span>
+                <span class="meta">03:49 <span class="ck">✓✓</span></span>
+              </div>
+            </div>
+            <div class="wbar">
+              <div class="inp">Mensagem</div>
+              <div class="snd">➤</div>
+            </div>
+          </div>
+          <div class="home-ind"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ COLUNA 2: OPÇÕES ============ -->
+    <div>
+      <div class="sec">
+        <h3>Combos prontos <code>clique e aplica tudo de uma vez</code></h3>
+        <div class="hint">Três personalidades para o mesmo link. Se estiver com pressa, é só escolher um destes.</div>
+        <div class="combos" id="combos"></div>
+      </div>
+
+      <div class="sec" id="s-img">
+        <h3>Imagem do preview <code>og:image · 1200×630</code></h3>
+        <div class="hint">É a parte que as pessoas realmente olham. As três usam o mascote das opções de logo.</div>
+      </div>
+
+      <div class="sec" id="s-title">
+        <h3>Título do link <code>og:title · o WhatsApp corta em ~2 linhas</code></h3>
+        <div class="hint">Precisa entregar "Detoken" e a piada no primeiro segundo, antes da descrição.</div>
+      </div>
+
+      <div class="sec" id="s-desc">
+        <h3>Descrição <code>og:description · ~3 linhas visíveis</code></h3>
+        <div class="hint">Aqui entram os Appcoólicos Anônimos, a função do app e a confissão de que foi feito com IA.</div>
+      </div>
+
+      <div class="sec" id="s-msg">
+        <h3>Mensagem que acompanha o link <code>o texto que você digita</code></h3>
+        <div class="hint">A frase que aparece embaixo do cartão. É a que decide se o grupo ri ou se preocupa.</div>
+      </div>
+
+      <div class="sec" id="s-url">
+        <h3>Domínio <code>o endereço que aparece no rodapé do cartão</code></h3>
+        <div class="hint">Sim, um app contra o vício de criar apps hospedado num <code>.app</code>. É proposital.</div>
+      </div>
+
+      <div class="sec" id="s-reply">
+        <h3>Resposta do grupo <code>bônus · a primeira mensagem depois do link</code></h3>
+        <div class="hint">Escolha o nível de constrangimento que você merece.</div>
+      </div>
+
+      <div class="sec">
+        <h3>As meta tags da escolha atual <code>cole no &lt;head&gt;</code></h3>
+        <div class="hint">É isto que o WhatsApp lê para montar o cartão. Atualiza junto com suas escolhas.</div>
+        <pre id="meta"></pre>
+      </div>
+    </div>
+  </div>
+
+  <div class="foot">
+    O cartão é montado pelo WhatsApp a partir das meta tags — se você mudar o texto depois de compartilhar, o app guarda o preview antigo em cache por um tempo.<br>
+    Como quase tudo neste projeto, isso é um problema que você vai querer resolver criando outro app. Não resolva.
+  </div>
+</div>
+
+<script>
+/* ---------------- mascote (reaproveitado das opções de logo) ---------------- */
+const WOB=`<filter id="wob" x="-12%" y="-12%" width="124%" height="124%"><feTurbulence type="fractalNoise" baseFrequency="0.05" numOctaves="2" seed="7" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2.2"/></filter>`;
+function rays(n,color,len,w,jitter,seed){let s='',rnd=seed;const rand=()=>{rnd=(rnd*9301+49297)%233280;return rnd/233280;};
+  for(let i=0;i<n;i++){const a=i*360/n*Math.PI/180,L=len+(rand()-.5)*jitter;
+    s+=`<line x1="${(Math.cos(a)*12).toFixed(1)}" y1="${(Math.sin(a)*12).toFixed(1)}" x2="${(Math.cos(a)*L).toFixed(1)}" y2="${(Math.sin(a)*L).toFixed(1)}" stroke="${color}" stroke-width="${w}" stroke-linecap="round"/>`}
+  return s;}
+function veins(cx,cy,rx,ry,k,seed){let s='',rnd=seed;const rand=()=>{rnd=(rnd*9301+49297)%233280;return rnd/233280;};
+  for(let i=0;i<k;i++){const a=rand()*Math.PI*2,x=cx+Math.cos(a)*rx*.95,y=cy+Math.sin(a)*ry*.95,mx=cx+Math.cos(a)*rx*.5+(rand()-.5)*3,my=cy+Math.sin(a)*ry*.5+(rand()-.5)*3;
+    s+=`<path d="M${x.toFixed(1)} ${y.toFixed(1)} Q${mx.toFixed(1)} ${my.toFixed(1)} ${(cx+Math.cos(a)*rx*.25).toFixed(1)} ${(cy+Math.sin(a)*ry*.25).toFixed(1)}" stroke="#ff4d4d" stroke-width="1.1" fill="none" opacity=".85"/>`}
+  return s;}
+function eye(cx,cy,rx,ry,o){o=o||{};let s=`<ellipse cx="${cx}" cy="${cy}" rx="${rx}" ry="${ry}" fill="#fff" stroke="#1a1a1a" stroke-width="2.2"/>`;
+  if(o.dead) return s+`<path d="M${cx-4} ${cy-4} l8 8 M${cx+4} ${cy-4} l-8 8" stroke="#1a1a1a" stroke-width="2.6" stroke-linecap="round"/>`;
+  s+=veins(cx,cy,rx,ry,6,o.seed||1);
+  const p=o.pupil||3.2,px=o.px||0,py=o.py||0,lid=o.lid==null?.45:o.lid;
+  s+=`<circle cx="${cx+px}" cy="${cy+py}" r="${p}" fill="#1a1a1a"/><circle cx="${cx+px-1.2}" cy="${cy+py-1.2}" r="1" fill="#fff"/>`;
+  s+=`<path d="M${cx-rx-1} ${cy-ry*(1-lid*1.4)} Q${cx} ${cy-ry+ry*lid*2} ${cx+rx+1} ${cy-ry*(1-lid*1.4)} L${cx+rx+1} ${cy-ry-2} L${cx-rx-1} ${cy-ry-2} Z" fill="${o.fill}" stroke="#1a1a1a" stroke-width="2"/>`;
+  s+=`<path d="M${cx-rx*.8} ${cy+ry+2.5} Q${cx} ${cy+ry+6} ${cx+rx*.8} ${cy+ry+2.5}" stroke="#1a1a1a" stroke-width="1.5" fill="none" opacity=".7"/>`;
+  return s;}
+const drool=(x,y,len,c)=>`<path d="M${x} ${y} q-3 ${len*.5} 0 ${len} q3 -${len*.5} 0 -${len}" fill="${c||'#7CE37C'}" stroke="#1a1a1a" stroke-width="1.6"/><ellipse cx="${x}" cy="${y+len-1}" rx="2.6" ry="2.3" fill="${c||'#7CE37C'}" stroke="#1a1a1a" stroke-width="1.4"/>`;
+
+const mascotClassic = `<g filter="url(#wob)">${rays(8,'#D97757',40,15,6,3)}<circle r="19" fill="#D97757"/>
+  ${eye(-8,-3,8,7,{pupil:3.2,px:1,py:1,lid:.5,seed:2,fill:'#D97757'})}
+  ${eye(9,-2,7,6,{pupil:4.4,px:-1,py:1,lid:.3,seed:9,fill:'#D97757'})}
+  <path d="M-9 10 q4 3 8 0 q3 -2 8 1" stroke="#1a1a1a" stroke-width="2.2" fill="none" stroke-linecap="round"/>${drool(6,11,13)}</g>`;
+const mascotTerminal = `<g filter="url(#wob)">${rays(8,'#3ddc84',36,14,6,3)}<circle r="19" fill="#3ddc84"/>
+  ${eye(-8,-3,7.5,6.5,{dead:true})}${eye(9,-3,7.5,6.5,{dead:true})}
+  <path d="M-8 10 q8 -6 16 0" stroke="#1a1a1a" stroke-width="2.4" fill="none" stroke-linecap="round"/>${drool(5,10,9,'#3ddc84')}</g>`;
+const mascotClinic = `<g filter="url(#wob)">${rays(8,'#D97757',36,14,6,5)}<circle r="18" fill="#D97757"/>
+  ${eye(-7,-3,7,6,{pupil:2.6,py:1.5,lid:.55,seed:4,fill:'#D97757'})}
+  ${eye(8,-2,6.5,6,{pupil:2.6,py:1.5,lid:.55,seed:6,fill:'#D97757'})}
+  <path d="M-7 9 q7 -3 14 1" stroke="#1a1a1a" stroke-width="2.2" fill="none" stroke-linecap="round"/></g>`;
+
+/* ---------------- og:image (1200x630) ---------------- */
+const ogImages = {
+  classico:{
+    label:'Clássico Chapado',
+    note:'Fundo escuro, mascote grande, barra de cura em 37%. É a que mais parece produto de verdade.',
+    svg:`<svg viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg"><defs>${WOB}</defs>
+      <rect width="1200" height="630" fill="#1c1a17"/>
+      <g transform="translate(322 316) scale(5.9)">${mascotClassic}</g>
+      <text x="620" y="256" font-family="JetBrains Mono,monospace" font-size="104" font-weight="800" fill="#F1E9E0" letter-spacing="-4">detoken</text>
+      <text x="624" y="312" font-family="JetBrains Mono,monospace" font-size="34" fill="#D97757">appcoólicos anônimos</text>
+      <text x="624" y="360" font-family="JetBrains Mono,monospace" font-size="24" fill="#8a8073">programa de recuperação em 12 commits</text>
+      <rect x="624" y="404" width="440" height="20" rx="10" fill="#2b2723"/>
+      <rect x="624" y="404" width="163" height="20" rx="10" fill="#3ddc84"/>
+      <text x="1080" y="421" font-family="JetBrains Mono,monospace" font-size="24" fill="#3ddc84">37%</text>
+      <text x="624" y="470" font-family="JetBrains Mono,monospace" font-size="22" fill="#6b6359">dia 3 de 90 sem abrir o Claude</text>
+      <rect x="624" y="506" width="546" height="46" rx="23" fill="none" stroke="#3a352f" stroke-width="2"/>
+      <text x="650" y="536" font-family="JetBrains Mono,monospace" font-size="20" fill="#8a8073">feito com IA · sabemos · faz parte da cura</text></svg>`
+  },
+  terminal:{
+    label:'X_X Terminal',
+    note:'Verde fósforo sobre preto. Passa despercebido como print de terminal — e é aí que pega.',
+    svg:`<svg viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg"><defs>${WOB}</defs>
+      <rect width="1200" height="630" fill="#050705"/>
+      <g stroke="#3ddc84" stroke-width="1" opacity=".13">${Array.from({length:40},(_,i)=>`<line x1="0" y1="${i*16+8}" x2="1200" y2="${i*16+8}"/>`).join('')}</g>
+      <text x="80" y="130" font-family="JetBrains Mono,monospace" font-size="30" fill="#3ddc84">odin@rehab ~/ $ detoken --status</text>
+      <g transform="translate(260 350) scale(5.6)">${mascotTerminal}</g>
+      <text x="520" y="300" font-family="JetBrains Mono,monospace" font-size="86" font-weight="800" fill="#3ddc84" letter-spacing="-3">$ detoken</text>
+      <text x="524" y="352" font-family="JetBrains Mono,monospace" font-size="27" fill="#2a9c5f">&gt; appcoólicos anônimos · 12 commits</text>
+      <text x="524" y="400" font-family="JetBrains Mono,monospace" font-size="25" fill="#1f7a49">&gt; cura [███████░░░░░░░░░░░] 37%</text>
+      <text x="524" y="448" font-family="JetBrains Mono,monospace" font-size="25" fill="#1f7a49">&gt; apps não criados: 14</text>
+      <text x="524" y="496" font-family="JetBrains Mono,monospace" font-size="25" fill="#1f7a49">&gt; built_with: IA (ironia: intencional)</text>
+      <rect x="524" y="522" width="16" height="30" fill="#3ddc84"/></svg>`
+  },
+  clinica:{
+    label:'Soro de Tokens',
+    note:'Fundo claro de clínica. Contrasta com o resto do grupo e parece anúncio sério de bem-estar.',
+    svg:`<svg viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg"><defs>${WOB}</defs>
+      <rect width="1200" height="630" fill="#E9EEF2"/>
+      <line x1="300" y1="70" x2="300" y2="520" stroke="#8a95a3" stroke-width="8"/>
+      <rect x="240" y="80" width="120" height="150" rx="16" fill="#fff" stroke="#1a1a1a" stroke-width="7"/>
+      <rect x="254" y="140" width="92" height="76" rx="8" fill="#7CE37C"/>
+      <text x="300" y="126" font-family="JetBrains Mono,monospace" font-size="30" font-weight="700" fill="#1a1a1a" text-anchor="middle">TOKENS</text>
+      <path d="M300 230 v70 q0 34 -34 34 h-40" stroke="#1a1a1a" stroke-width="7" fill="none"/>
+      <g transform="translate(196 390) scale(5.4)">${mascotClinic}</g>
+      <text x="470" y="270" font-family="JetBrains Mono,monospace" font-size="98" font-weight="800" fill="#12151a" letter-spacing="-4">detoken</text>
+      <text x="474" y="324" font-family="JetBrains Mono,monospace" font-size="31" fill="#5a6672">appcoólicos anônimos · internação voluntária</text>
+      <text x="474" y="382" font-family="JetBrains Mono,monospace" font-size="26" fill="#7b8794">alta prevista: nunca · usuários ativos: 0</text>
+      <rect x="474" y="424" width="600" height="60" rx="12" fill="#dfe6ec"/>
+      <text x="496" y="462" font-family="JetBrains Mono,monospace" font-size="24" fill="#4b5763">diagnóstico: fez outro app com IA às 03h47</text></svg>`
+  }
+};
+
+/* ---------------- opções de texto ---------------- */
+const DATA = {
+  title:[
+    {v:'Detoken · detox de tokens para appcoólicos anônimos', n:'Nome + o que é + o grupo, em 51 caracteres. A mais equilibrada.', pick:true},
+    {v:'Detoken · o app que te cura de fazer apps', n:'Curta e circular. A piada se resolve sozinha antes da descrição.'},
+    {v:'Detoken — Appcoólicos Anônimos (capítulo digital)', n:'Formal, quase institucional. Boa para quem for encaminhar para outras pessoas.'},
+    {v:'Detoken: programa de 12 commits para largar o vibe coding', n:'A mais específica do público. Rende mais em grupo de dev que em grupo de família.'},
+    {v:'Detoken — dia 3 de 90 sem abrir o Claude', n:'Título como status de recuperação. Funciona melhor se você mandar toda semana com o número atualizado.'}
+  ],
+  desc:[
+    {v:'Programa de recuperação em 12 commits para quem não consegue parar de criar aplicativos com IA. Feito com IA. Estamos cientes. Faz parte do tratamento.', n:'Entrega função, grupo e a confissão de IA — nessa ordem.'},
+    {v:'Você tem 14 MVPs abandonados e três domínios .app parados. O Detoken conta os tokens que você economizou, os dias sem recaída e manda você tocar na grama.', n:'A que melhor explica o que o app faz de fato, sem perder o sarcasmo.'},
+    {v:'Appcoólicos Anônimos, capítulo digital. Sponsor sintético incluso: uma IA treinada para responder "não." a qualquer ideia sua de aplicativo.', n:'Vende a melhor funcionalidade. Boa quando o cartão vai para outros devs.'},
+    {v:'Rastreia dias sem abrir o terminal, tokens poupados, dinheiro não gasto em domínio e apps que você heroicamente não criou. Zero usuários — como todos os seus projetos.', n:'A mais "dashboard". Combina com a imagem do Clássico Chapado.'},
+    {v:'Feito com IA em 6 minutos por alguém que deveria estar dormindo. A ironia não é um bug: é a funcionalidade principal.', n:'A mais autodepreciativa. Curta, cabe inteira no preview, sempre arranca resposta.', pick:true}
+  ],
+  msg:[
+    {v:'gente, criei um app que cura o vício de criar apps. sim, com IA. sim, tô ciente. dia 3.', n:'Assume tudo de uma vez. É a que soa mais humana no grupo.', pick:true},
+    {v:'meu nome é Odin e eu faço aplicativos. (agora vocês respondem "oi, Odin")', n:'Abertura clássica de reunião. Convida o grupo a participar da piada.'},
+    {v:'último app, juro. esse é diferente: esse é o que impede todos os próximos.', n:'A frase que todo appcoólico já disse. Curta e certeira.'},
+    {v:'03:47. não me julguem. me instalem.', n:'Seis palavras, funciona sozinha até sem o cartão.'},
+    {v:'descobri a cura, fiz um app pra ela, percebi o problema, fiz outro app pro problema. estou pedindo ajuda através deste link.', n:'A mais longa; a espiral é a graça. Melhor para grupo de amigos que de trabalho.'}
+  ],
+  url:[
+    {v:'detoken.bitbeagle.com', n:'O endereço real. Subdomínio do bitbeagle.com — sem comprar o 15º domínio. Progresso.', pick:true},
+    {v:'detoken.app', n:'Um app contra o vício de comprar domínio .app, num domínio .app. A ironia é o produto.'},
+    {v:'detoken.rehab', n:'O TLD .rehab existe de verdade e custa caro — o que, convenhamos, já é uma recaída.'},
+    {v:'appcoolicos.org', n:'A mais institucional: parece ONG séria até você abrir.'},
+    {v:'naofacaapps.com', n:'Autoexplicativo. Baixo custo de piada, alto retorno.'},
+    {v:'localhost:3000', n:'O app nunca saiu daqui — que é, estatisticamente, o destino mais provável.'}
+  ],
+  reply:[
+    {v:'de novo?', n:'Duas palavras. O silêncio constrangedor faz o resto.', pick:true},
+    {v:'esse é o 15º domínio .app, Odin', n:'Alguém do grupo está contando. Sempre tem.'},
+    {v:'tá no ar? posso testar', n:'A pergunta mais perigosa do grupo — é assim que começa o próximo app.'},
+    {v:'você fez um app pra parar de fazer app', n:'O diagnóstico dito em voz alta por outra pessoa.'},
+    {v:'vou instalar. qual o preço?', n:'Preparação perfeita para "grátis — você já pagou o suficiente".'}
+  ]
+};
+
+const COMBOS = [
+  {name:'Sóbrio', note:'Título direto, descrição institucional, mensagem confessional. O combo que já vem aplicado.', pick:{img:'classico',title:0,desc:4,msg:0,url:0,reply:0}},
+  {name:'Autoflagelo', note:'Tudo em modo "eu sei o que eu fiz". Imagem clínica, descrição que fala dos seus 14 MVPs.', pick:{img:'clinica',title:1,desc:1,msg:4,url:1,reply:3}},
+  {name:'Grupo de dev', note:'Print de terminal, sponsor sintético na descrição e a frase que só programador entende.', pick:{img:'terminal',title:3,desc:2,msg:2,url:4,reply:1}},
+  {name:'Corporativo sério', note:'Para mandar no grupo do trabalho e deixar todo mundo em dúvida se é piada.', pick:{img:'classico',title:2,desc:3,msg:3,url:2,reply:4}}
+];
+
+/* ---------------- estado + render ---------------- */
+const state = {img:'classico', title:0, desc:4, msg:0, url:0, reply:0};
+const $ = id => document.getElementById(id);
+
+function buildSection(key, host){
+  host.querySelectorAll('.opt').forEach(e=>e.remove());
+  DATA[key].forEach((o,i)=>{
+    const el = document.createElement('div');
+    el.className = 'opt' + (state[key]===i?' on':'');
+    const len = o.v.length;
+    el.innerHTML = `<div class="dot"></div><div class="body"><p>${o.v.replace(/</g,'&lt;')}${o.pick?'<span class="badge">escolhida</span>':''}</p><div class="n">${o.n}</div></div><div class="len${len>160?' bad':''}">${len}</div>`;
+    el.onclick = ()=>{ state[key]=i; buildSection(key,host); render(); };
+    host.appendChild(el);
+  });
+}
+function buildImages(){
+  const host = $('s-img');
+  host.querySelectorAll('.opt').forEach(e=>e.remove());
+  Object.entries(ogImages).forEach(([k,o])=>{
+    const el = document.createElement('div');
+    el.className = 'opt' + (state.img===k?' on':'');
+    el.innerHTML = `<div class="dot"></div><div class="body" style="display:flex;gap:10px;align-items:center">
+      <div style="width:112px;flex:none;border-radius:5px;overflow:hidden;line-height:0">${o.svg}</div>
+      <div><p>${o.label}</p><div class="n">${o.note}</div></div></div>`;
+    el.onclick = ()=>{ state.img=k; buildImages(); render(); };
+    host.appendChild(el);
+  });
+}
+function buildCombos(){
+  $('combos').innerHTML = COMBOS.map((c,i)=>`<div class="combo" onclick="applyCombo(${i})"><b>${c.name}${i===0?'<span class="badge">ativo</span>':''}</b><span>${c.note}</span></div>`).join('');
+}
+function applyCombo(i){
+  Object.assign(state, COMBOS[i].pick);
+  buildImages(); ['title','desc','msg','url','reply'].forEach(k=>buildSection(k,$('s-'+k))); render();
+}
+function render(){
+  $('ogimg').innerHTML = ogImages[state.img].svg;
+  $('avatar').innerHTML = `<svg viewBox="0 0 100 100" width="38" height="38"><defs>${WOB}</defs><rect width="100" height="100" fill="${state.img==='terminal'?'#050705':state.img==='clinica'?'#E9EEF2':'#1c1a17'}"/><g transform="translate(50 52) scale(1.35)">${state.img==='terminal'?mascotTerminal:state.img==='clinica'?mascotClinic:mascotClassic}</g></svg>`;
+  $('ogTitle').textContent = DATA.title[state.title].v;
+  $('ogDesc').textContent = DATA.desc[state.desc].v;
+  const url = DATA.url[state.url].v;
+  $('ogUrl').textContent = url;
+  $('rawUrl').textContent = (url.includes('localhost') ? 'http://' : 'https://') + url;
+  $('msgText').textContent = DATA.msg[state.msg].v;
+  $('reply1').textContent = DATA.reply[state.reply].v;
+  const secondary = ['esse é o 15º domínio .app, Odin','alguém avisa a Ellen','você fez um app pra parar de fazer app','já são 3h47, Odin'];
+  $('reply2').textContent = secondary.find(s => s !== DATA.reply[state.reply].v);
+  $('meta').innerHTML =
+`<span class="k">&lt;meta</span> property=<span class="s">"og:title"</span> content=<span class="s">"${esc(DATA.title[state.title].v)}"</span><span class="k">&gt;</span>
+<span class="k">&lt;meta</span> property=<span class="s">"og:description"</span> content=<span class="s">"${esc(DATA.desc[state.desc].v)}"</span><span class="k">&gt;</span>
+<span class="k">&lt;meta</span> property=<span class="s">"og:image"</span> content=<span class="s">"https://${url}/og-detoken-${state.img}.png"</span><span class="k">&gt;</span>
+<span class="k">&lt;meta</span> property=<span class="s">"og:url"</span> content=<span class="s">"https://${url}"</span><span class="k">&gt;</span>
+<span class="k">&lt;meta</span> property=<span class="s">"og:site_name"</span> content=<span class="s">"Appcoólicos Anônimos"</span><span class="k">&gt;</span>
+<span class="k">&lt;meta</span> name=<span class="s">"generator"</span> content=<span class="s">"IA, às 03h47, contra o bom senso"</span><span class="k">&gt;</span>`;
+}
+const esc = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;');
+function mode(i){
+  $('wa').classList.toggle('light', i===1);
+  $('mDark').classList.toggle('on', i===0);
+  $('mLight').classList.toggle('on', i===1);
+}
+
+/* doodle wallpaper */
+const doodle = encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="260" height="260"><g fill="none" stroke="#fff" stroke-width="2" opacity="1" font-family="monospace" font-size="22">
+<text x="20" y="40" fill="#fff" stroke="none">*</text><text x="120" y="70" fill="#fff" stroke="none">{ }</text><text x="200" y="40" fill="#fff" stroke="none">$_</text>
+<text x="60" y="130" fill="#fff" stroke="none">&lt;/&gt;</text><text x="180" y="150" fill="#fff" stroke="none">*</text><text x="30" y="210" fill="#fff" stroke="none">;</text>
+<text x="130" y="230" fill="#fff" stroke="none">npm</text><text x="220" y="210" fill="#fff" stroke="none">*</text></g></svg>`);
+document.documentElement.style.setProperty('--doodle', `url("data:image/svg+xml,${doodle}")`);
+
+buildCombos(); buildImages();
+['title','desc','msg','url','reply'].forEach(k=>buildSection(k,$('s-'+k)));
+render();
+</script>
+</body>
+</html>

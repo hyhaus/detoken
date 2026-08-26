@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Detoken — opções de logo</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=Inter:wght@500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#0b0d10;--panel:#12151a;--line:#242a33;--fg:#d7dde6;--dim:#7c8794;--mute:#4f5964;--green:#3ddc84;--claude:#D97757;--mono:"JetBrains Mono",ui-monospace,Menlo,monospace}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--fg);font-family:var(--mono);font-size:13px;-webkit-font-smoothing:antialiased}
+  .page{max-width:1240px;margin:0 auto;padding:36px 20px 60px}
+  header{margin-bottom:26px}
+  header h1{font-size:22px;font-weight:800;letter-spacing:-.4px}
+  header p{color:var(--dim);margin-top:6px;max-width:760px;line-height:1.55}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(360px,1fr));gap:20px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:14px}
+  .card .num{font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--mute)}
+  .card h2{font-size:15px;font-weight:700}
+  .card h2 span{color:var(--dim);font-weight:400}
+  .hero{display:flex;gap:18px;align-items:center}
+  .appicon{border-radius:26%;overflow:hidden;flex:none;box-shadow:0 10px 30px rgba(0,0,0,.5)}
+  .appicon svg{display:block}
+  .word{display:flex;flex-direction:column;gap:6px}
+  .word .name{font-size:30px;font-weight:800;letter-spacing:-1.2px;line-height:1}
+  .word .tag{color:var(--dim);font-size:11.5px;line-height:1.45}
+  .sizes{display:flex;gap:14px;align-items:flex-end;padding:12px;border:1px dashed var(--line);border-radius:12px}
+  .sizes .s{display:flex;flex-direction:column;align-items:center;gap:6px;color:var(--mute);font-size:10px}
+  .sizes .s .appicon{box-shadow:none}
+  .home{margin-left:auto;background:#1c2028;border-radius:10px;padding:8px 10px;display:flex;flex-direction:column;align-items:center;gap:5px;font-size:9.5px;color:#cfd6e0}
+  .why{color:var(--dim);font-size:11.5px;line-height:1.5;border-top:1px solid var(--line);padding-top:12px}
+  .why b{color:var(--fg);font-weight:500}
+  .foot{margin-top:30px;color:var(--mute);font-size:11px;line-height:1.7;text-align:center}
+  .pill{display:inline-block;border:1px solid var(--line);border-radius:999px;padding:2px 8px;font-size:10px;color:var(--dim);margin-left:6px;vertical-align:middle}
+</style>
+</head>
+<body>
+<div class="page">
+  <header>
+    <h1>Detoken — 5 opções de logo <span class="pill">detox + token</span></h1>
+    <p>Mascote: o asterisco laranja do Claude, só que depois de 14 MVPs, três domínios .app e uma noite inteira de "só mais um prompt". Traço trêmulo, olho vermelho e baba verde, no espírito de um desenho animado adulto de ficção científica que você conhece bem. Cada opção vem no tamanho de ícone de app, em três reduções e na home do celular.</p>
+  </header>
+
+  <div class="grid" id="grid"></div>
+
+  <div class="foot">
+    Paleta base: laranja Claude <b style="color:#D97757">#D97757</b> · verde baba <b style="color:#7CE37C">#7CE37C</b> · vermelho vaso sanguíneo <b style="color:#ff4d4d">#ff4d4d</b>.<br>
+    Nenhum asterisco foi ferido na produção deste mockup. Ele já estava assim quando chegamos.
+  </div>
+</div>
+
+<script>
+// ---------- utilitários de desenho ----------
+const R = (i,n)=> (i*360/n);
+function rays(n, color, len, w, jitter, seed){
+  // raios estilo "starburst" com leve irregularidade de comprimento
+  let s=''; let rnd=seed;
+  const rand=()=>{ rnd=(rnd*9301+49297)%233280; return rnd/233280; };
+  for(let i=0;i<n;i++){
+    const a=R(i,n)*Math.PI/180, L=len+(rand()-.5)*jitter;
+    const x1=Math.cos(a)*12, y1=Math.sin(a)*12, x2=Math.cos(a)*L, y2=Math.sin(a)*L;
+    s+=`<line x1="${x1.toFixed(1)}" y1="${y1.toFixed(1)}" x2="${x2.toFixed(1)}" y2="${y2.toFixed(1)}" stroke="${color}" stroke-width="${w}" stroke-linecap="round"/>`;
+  }
+  return s;
+}
+const veins = (cx,cy,rx,ry,k=5,seed=1)=>{
+  let s='',rnd=seed; const rand=()=>{rnd=(rnd*9301+49297)%233280;return rnd/233280;};
+  for(let i=0;i<k;i++){
+    const a=rand()*Math.PI*2, x=cx+Math.cos(a)*rx*.95, y=cy+Math.sin(a)*ry*.95;
+    const mx=cx+Math.cos(a)*rx*.5+(rand()-.5)*3, my=cy+Math.sin(a)*ry*.5+(rand()-.5)*3;
+    s+=`<path d="M${x.toFixed(1)} ${y.toFixed(1)} Q${mx.toFixed(1)} ${my.toFixed(1)} ${(cx+Math.cos(a)*rx*.25).toFixed(1)} ${(cy+Math.sin(a)*ry*.25).toFixed(1)}" stroke="#ff4d4d" stroke-width="1.1" fill="none" opacity=".85"/>`;
+  }
+  return s;
+};
+// olho: branco, veias, pupila, pálpebra caída
+function eye(cx,cy,rx,ry,{pupil=4,px=0,py=0,lid=.45,seed=1,spiral=false,dead=false}={}){
+  let s=`<ellipse cx="${cx}" cy="${cy}" rx="${rx}" ry="${ry}" fill="#fff" stroke="#1a1a1a" stroke-width="2.2"/>`;
+  if(dead){
+    s+=`<path d="M${cx-4} ${cy-4} l8 8 M${cx+4} ${cy-4} l-8 8" stroke="#1a1a1a" stroke-width="2.6" stroke-linecap="round"/>`;
+    return s;
+  }
+  s+=veins(cx,cy,rx,ry,6,seed);
+  if(spiral){
+    s+=`<path d="M${cx} ${cy} m0 0 a1 1 0 0 1 2 0 a2.4 2.4 0 0 1 -4.4 1.2 a3.8 3.8 0 0 1 6.5 -3.2 a5.2 5.2 0 0 1 -8.8 5" stroke="#1a1a1a" stroke-width="1.6" fill="none" stroke-linecap="round"/>`;
+  } else {
+    s+=`<circle cx="${cx+px}" cy="${cy+py}" r="${pupil}" fill="#1a1a1a"/><circle cx="${cx+px-1.2}" cy="${cy+py-1.2}" r="1" fill="#fff"/>`;
+  }
+  // pálpebra
+  s+=`<path d="M${cx-rx-1} ${cy-ry*(1-lid*1.4)} Q${cx} ${cy-ry+ry*lid*2} ${cx+rx+1} ${cy-ry*(1-lid*1.4)} L${cx+rx+1} ${cy-ry-2} L${cx-rx-1} ${cy-ry-2} Z" fill="CURRENT" stroke="#1a1a1a" stroke-width="2"/>`;
+  // olheira
+  s+=`<path d="M${cx-rx*.8} ${cy+ry+2.5} Q${cx} ${cy+ry+6} ${cx+rx*.8} ${cy+ry+2.5}" stroke="#1a1a1a" stroke-width="1.5" fill="none" opacity=".7"/>`;
+  return s;
+}
+const drool=(x,y,len,color='#7CE37C')=>`<path d="M${x} ${y} q-3 ${len*.5} 0 ${len} q3 -${len*.5} 0 -${len}" fill="${color}" stroke="#1a1a1a" stroke-width="1.6"/><ellipse cx="${x}" cy="${y+len-1}" rx="2.6" ry="2.3" fill="${color}" stroke="#1a1a1a" stroke-width="1.4"/>`;
+
+const WOB=`<filter id="wob" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="fractalNoise" baseFrequency="0.05" numOctaves="2" seed="7" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2.4"/></filter>`;
+
+// ---------- 5 opções ----------
+const options = [
+  {
+    name:'O Clássico Chapado', sub:'mascote puro',
+    bg:'#1c1a17', text:'#F1E9E0', accent:'#D97757',
+    why:'<b>Ideia:</b> o asterisco do Claude como ele fica às 3h47: pálpebra caída, um olho maior que o outro, baba verde. Reconhecível em 24px, engraçado em 180px. É a opção "app de verdade" — vai bem na App Store, na camiseta e no adesivo de notebook.',
+    svg:(S)=>`<rect width="100" height="100" fill="#1c1a17"/>
+      <g transform="translate(50 52)" filter="url(#wob)">
+        ${rays(8,'#D97757',40,15,6,3)}
+        <circle r="19" fill="#D97757"/>
+        ${eye(-8,-3,8,7,{pupil:3.2,px:1,py:1,lid:.5,seed:2}).replaceAll('CURRENT','#D97757')}
+        ${eye(9,-2,7,6,{pupil:4.4,px:-1,py:1,lid:.3,seed:9}).replaceAll('CURRENT','#D97757')}
+        <path d="M-9 10 q4 3 8 0 q3 -2 8 1" stroke="#1a1a1a" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+        ${drool(6,11,13)}
+      </g>`
+  },
+  {
+    name:'Soro de Tokens', sub:'internação',
+    bg:'#E9EEF2', text:'#12151a', accent:'#D97757',
+    why:'<b>Ideia:</b> o mascote internado, na cadeira, tomando soro de tokens na veia. Fundo claro estilo clínica; a pulseira de hospital com "PAT. 0001" é o detalhe que rende. Melhor opção para tela de abertura e material de "programa de 12 commits".',
+    svg:(S)=>`<rect width="100" height="100" fill="#E9EEF2"/>
+      <!-- suporte do soro -->
+      <line x1="80" y1="14" x2="80" y2="92" stroke="#8a95a3" stroke-width="2.4"/>
+      <rect x="70" y="16" width="20" height="26" rx="4" fill="#fff" stroke="#1a1a1a" stroke-width="2"/>
+      <rect x="72" y="26" width="16" height="14" rx="2" fill="#7CE37C"/>
+      <text x="80" y="24" font-family="JetBrains Mono,monospace" font-size="5.5" font-weight="700" fill="#1a1a1a" text-anchor="middle">TOKENS</text>
+      <path d="M80 42 v10 q0 6 -6 6 h-12 q-6 0 -6 6 v4" stroke="#1a1a1a" stroke-width="2" fill="none"/>
+      <circle cx="80" cy="47" r="1.3" fill="#7CE37C"/>
+      <g transform="translate(42 60)" filter="url(#wob)">
+        ${rays(8,'#D97757',34,13,6,5)}
+        <circle r="17" fill="#D97757"/>
+        ${eye(-7,-3,7,6,{pupil:2.6,px:0,py:1.5,lid:.55,seed:4}).replaceAll('CURRENT','#D97757')}
+        ${eye(8,-2,6.5,6,{pupil:2.6,px:0,py:1.5,lid:.55,seed:6}).replaceAll('CURRENT','#D97757')}
+        <path d="M-7 9 q7 -3 14 1" stroke="#1a1a1a" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+        <!-- pulseira -->
+        <rect x="14" y="14" width="18" height="6" rx="3" fill="#fff" stroke="#1a1a1a" stroke-width="1.6" transform="rotate(-40 23 17)"/>
+        <text x="23" y="18.2" font-family="JetBrains Mono,monospace" font-size="3.6" font-weight="700" fill="#1a1a1a" text-anchor="middle" transform="rotate(-40 23 17)">PAT.0001</text>
+      </g>
+`
+  },
+  {
+    name:'Overdose de Prompt', sub:'espiral',
+    bg:'#0e0f13', text:'#F1E9E0', accent:'#B48CFF',
+    why:'<b>Ideia:</b> olhos em espiral de hipnose e um balão de "*burp*" com a frase mais perigosa da indústria. Versão roxa/ácida para quem quer o logo mais "adult swim" possível. Rende animação: a espiral gira quando a barra de cura cai.',
+    svg:(S)=>`<rect width="100" height="100" fill="#0e0f13"/>
+      <circle cx="50" cy="54" r="44" fill="#B48CFF" opacity=".12"/>
+      <g transform="translate(46 56)" filter="url(#wob)">
+        ${rays(8,'#D97757',40,15,8,11)}
+        <circle r="19" fill="#D97757"/>
+        ${eye(-8,-3,8,7.5,{spiral:true,lid:.2,seed:3}).replaceAll('CURRENT','#D97757')}
+        ${eye(9,-3,8,7.5,{spiral:true,lid:.2,seed:8}).replaceAll('CURRENT','#D97757')}
+        <ellipse cx="1" cy="11" rx="4.5" ry="3.5" fill="#1a1a1a"/>
+        <ellipse cx="1" cy="12.5" rx="2.6" ry="1.4" fill="#ff8a8a"/>
+        ${drool(-3,13,10)}
+      </g>
+      <!-- balão -->
+      <path d="M52 6 h42 a4 4 0 0 1 4 4 v18 a4 4 0 0 1 -4 4 h-24 l-6 6 v-6 h-12 a4 4 0 0 1 -4 -4 v-18 a4 4 0 0 1 4 -4z" fill="#fff" stroke="#1a1a1a" stroke-width="2"/>
+      <text x="73" y="14.5" font-family="JetBrains Mono,monospace" font-size="5.4" font-weight="700" fill="#1a1a1a" text-anchor="middle">*burp*</text>
+      <text x="73" y="21" font-family="JetBrains Mono,monospace" font-size="4.3" fill="#1a1a1a" text-anchor="middle">só mais um</text>
+      <text x="73" y="27" font-family="JetBrains Mono,monospace" font-size="4.3" fill="#1a1a1a" text-anchor="middle">prompt, juro</text>`
+  },
+  {
+    name:'X_X Terminal', sub:'monocromático',
+    bg:'#050705', text:'#3ddc84', accent:'#3ddc84',
+    why:'<b>Ideia:</b> versão "dev": tudo em verde fósforo sobre preto, olhos X_X, cursor piscando ao lado do nome. Funciona como favicon de 16px, como ícone monocromático do iOS e como logo no README. É a opção que um programador escolheria — o que, neste contexto, é um sintoma.',
+    svg:(S)=>`<rect width="100" height="100" fill="#050705"/>
+      <g transform="translate(50 42)" filter="url(#wob)">
+        ${rays(8,'none',34,14,6,3).replaceAll('stroke="none"','stroke="#3ddc84"')}
+        <circle r="19" fill="#3ddc84"/>
+        ${eye(-8,-3,7.5,6.5,{dead:true})}
+        ${eye(9,-3,7.5,6.5,{dead:true})}
+        <path d="M-8 10 q8 -6 16 0" stroke="#1a1a1a" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+        ${drool(5,10,9,'#3ddc84')}
+      </g>
+      <text x="14" y="92" font-family="JetBrains Mono,monospace" font-size="9" font-weight="700" fill="#3ddc84">$ detoken</text>
+      <rect x="70" y="84" width="5" height="9" fill="#3ddc84"><animate attributeName="opacity" values="1;0;1" dur="1s" repeatCount="indefinite"/></rect>
+      <g stroke="#3ddc84" stroke-width=".6" opacity=".18">${Array.from({length:12},(_,i)=>`<line x1="0" y1="${i*8+4}" x2="100" y2="${i*8+4}"/>`).join('')}</g>`
+  },
+  {
+    name:'Corporate Sóbrio', sub:'flat / app store safe',
+    bg:'#D97757', text:'#12151a', accent:'#12151a',
+    why:'<b>Ideia:</b> a versão "aprovada pelo jurídico": asterisco limpo, um olho só levemente caído, uma gota de suor e o selo de progresso "37%". Parece um app de bem-estar de verdade — e é exatamente por isso que é engraçado. Escala perfeitamente e vive bem ao lado do Duolingo na sua home.',
+    svg:(S)=>`<rect width="100" height="100" fill="#D97757"/>
+      <g transform="translate(48 50)">
+        ${rays(8,'#1c1a17',38,14,0,1)}
+        <circle r="18" fill="#1c1a17"/>
+        <ellipse cx="-7" cy="-2" rx="6" ry="5.5" fill="#fff"/><circle cx="-6" cy="-1" r="2.6" fill="#1c1a17"/>
+        <ellipse cx="8" cy="-2" rx="6" ry="5.5" fill="#fff"/><circle cx="8" cy="0" r="2.6" fill="#1c1a17"/>
+        <path d="M2 -7.5 Q8 -10 14 -7.5 L14 -9 L2 -9 Z" fill="#1c1a17"/>
+        <path d="M-6 9 q7 3 13 0" stroke="#fff" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+        <path d="M-22 -14 q-3 4 0 7 q3 -3 0 -7z" fill="#8fd3ff"/>
+      </g>
+      <g transform="translate(78 78)">
+        <circle r="15" fill="#1c1a17"/>
+        <circle r="11" fill="none" stroke="#3a3632" stroke-width="3"/>
+        <circle r="11" fill="none" stroke="#3ddc84" stroke-width="3" stroke-dasharray="25.6 69.1" stroke-linecap="round" transform="rotate(-90)"/>
+        <text y="2.6" font-family="JetBrains Mono,monospace" font-size="7" font-weight="700" fill="#fff" text-anchor="middle">37%</text>
+      </g>`
+  }
+];
+
+const svgOf=(o,size)=>`<svg width="${size}" height="${size}" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><defs>${WOB}</defs>${o.svg(size)}</svg>`;
+const wordFont = i => i===3 ? 'JetBrains Mono, monospace' : i===4 ? 'Inter, system-ui, sans-serif' : 'JetBrains Mono, monospace';
+const wordText = i => i===3 ? '$ detoken_' : i===4 ? 'Detoken' : 'detoken';
+const tags = [
+  'Detox de tokens para appcoólicos. Sem backend, sem recaída.',
+  'Programa de 12 commits. Alta prevista: nunca.',
+  'Só mais um prompt e eu paro. Juro.',
+  'kill -9 vicio · exit code: você',
+  'Bem-estar digital para quem já criou 14 MVPs este mês.'
+];
+
+document.getElementById('grid').innerHTML = options.map((o,i)=>`
+  <div class="card">
+    <div class="num">opção 0${i+1}</div>
+    <h2>${o.name} <span>· ${o.sub}</span></h2>
+    <div class="hero">
+      <div class="appicon">${svgOf(o,168)}</div>
+      <div class="word">
+        <div class="name" style="font-family:${wordFont(i)};color:${i===3?'#3ddc84':i===4?'#D97757':'var(--fg)'}">${wordText(i)}</div>
+        <div class="tag">${tags[i]}</div>
+      </div>
+    </div>
+    <div class="sizes">
+      <div class="s"><div class="appicon">${svgOf(o,60)}</div>60px</div>
+      <div class="s"><div class="appicon">${svgOf(o,40)}</div>40px</div>
+      <div class="s"><div class="appicon">${svgOf(o,24)}</div>24px</div>
+      <div class="s"><div class="appicon" style="border-radius:4px">${svgOf(o,16)}</div>favicon</div>
+      <div class="home"><div class="appicon">${svgOf(o,44)}</div>Detoken<div style="display:flex;gap:4px;margin-top:2px"><span style="background:#ff4d4d;color:#fff;border-radius:8px;padding:0 5px;font-size:8px">14</span></div></div>
+    </div>
+    <div class="why">${o.why}</div>
+  </div>`).join('');
+</script>
+</body>
+</html>

@@ -1,0 +1,9 @@
+# nada de build por aqui - se aparecer, e recaida
+node_modules/
+package-lock.json
+dist/
+build/
+.DS_Store
+*.zip
+.vscode/
+.idea/

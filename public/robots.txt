@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# Nenhum crawler precisa disto. Nenhum humano também.
+Sitemap: https://detoken.bitbeagle.com/sitemap.xml

@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Detoken · detox de tokens para appcoólicos anônimos</title>
+<meta name="description" content="Feito com IA em 6 minutos por alguém que deveria estar dormindo. A ironia não é um bug: é a funcionalidade principal.">
+<meta name="generator" content="IA, às 03h47, contra o bom senso">
+<meta name="theme-color" content="#0b0d10">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Detoken">
+
+<meta property="og:title" content="Detoken · detox de tokens para appcoólicos anônimos">
+<meta property="og:description" content="Feito com IA em 6 minutos por alguém que deveria estar dormindo. A ironia não é um bug: é a funcionalidade principal.">
+<meta property="og:image" content="https://detoken.bitbeagle.com/og-detoken-classico.png">
+<meta property="og:image:secure_url" content="https://detoken.bitbeagle.com/og-detoken-classico.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Mascote asterisco laranja de olhos caídos ao lado do nome detoken e uma barra de cura em 37%.">
+<meta property="og:url" content="https://detoken.bitbeagle.com">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Appcoólicos Anônimos">
+<meta property="og:locale" content="pt_BR">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Detoken · detox de tokens para appcoólicos anônimos">
+<meta name="twitter:description" content="Feito com IA em 6 minutos por alguém que deveria estar dormindo. A ironia não é um bug: é a funcionalidade principal.">
+<meta name="twitter:image" content="https://detoken.bitbeagle.com/og-detoken-classico.png">
+<link rel="canonical" href="https://detoken.bitbeagle.com/">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.png" sizes="64x64" type="image/png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg:#0b0d10;--panel:#111418;--panel2:#171b21;--line:#242a33;--line2:#2f3742;
+  --fg:#d7dde6;--dim:#7c8794;--mute:#4f5964;
+  --green:#3ddc84;--amber:#f5b83d;--red:#ff5c5c;--blue:#5aa9ff;--purple:#b48cff;--claude:#D97757;--drool:#7CE37C;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --sat:env(safe-area-inset-top,0px);--sab:env(safe-area-inset-bottom,0px);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:#000;color:var(--fg);font-family:var(--mono);font-size:13px;line-height:1.45;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent;overscroll-behavior:none}
+button{font-family:inherit}
+.frame{position:relative;width:100%;height:100%;height:100dvh;background:var(--bg);overflow:hidden}
+.desk{display:none}
+@media (min-width:760px){
+  body{display:grid;place-items:center;background:radial-gradient(1200px 700px at 50% 10%,#151a21,#000 70%)}
+  .frame{width:390px;height:min(844px,88vh);border-radius:44px;border:1px solid #2a2f37;box-shadow:0 40px 100px rgba(0,0,0,.7),inset 0 0 0 6px #0c0e12}
+  .frame .app{border-radius:38px;inset:8px}
+  .frame .notch{display:block}
+  .desk{display:block;position:fixed;left:0;right:0;bottom:14px;text-align:center;color:var(--mute);font-size:11px;line-height:1.6}
+  .desk b{color:var(--dim);font-weight:500}
+}
+.notch{display:none;position:absolute;top:18px;left:50%;transform:translateX(-50%);width:118px;height:30px;background:#000;border-radius:20px;z-index:20}
+.app{position:absolute;inset:0;display:flex;flex-direction:column;overflow:hidden;background:var(--bg)}
+
+/* status + topbar */
+.status{height:calc(46px + var(--sat));padding:var(--sat) 26px 0;display:flex;justify-content:space-between;align-items:flex-end;padding-bottom:6px;font-size:12px;font-weight:500;flex:none}
+.status .bat{color:var(--red)}
+.topbar{padding:8px 16px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:8px;flex:none;font-size:12px;white-space:nowrap;overflow:hidden}
+.topbar .u{color:var(--green)} .topbar .p{color:var(--dim)} .topbar .c{color:var(--fg);overflow:hidden;text-overflow:ellipsis}
+.cur{display:inline-block;width:7px;height:13px;background:var(--fg);vertical-align:-2px;animation:blink 1s steps(2) infinite}
+@keyframes blink{50%{opacity:0}}
+
+/* screens */
+.screens{flex:1;position:relative;min-height:0}
+.screen{position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;padding:14px 16px calc(92px + var(--sab));opacity:0;pointer-events:none;transform:translateX(12px);transition:opacity .22s,transform .22s;scrollbar-width:none}
+.screen::-webkit-scrollbar{display:none}
+.screen.on{opacity:1;pointer-events:auto;transform:none}
+.head{display:flex;gap:12px;align-items:center;margin-bottom:6px}
+.head .logo{width:44px;height:44px;border-radius:12px;overflow:hidden;flex:none;background:#000}
+.head .logo svg{display:block;width:100%;height:100%}
+h2{font-size:15px;font-weight:700;letter-spacing:-.2px}
+.ver{color:var(--mute);font-size:10.5px;margin-top:1px}
+
+/* tabbar */
+.tabbar{position:absolute;left:0;right:0;bottom:0;height:calc(72px + var(--sab));padding-bottom:var(--sab);background:rgba(11,13,16,.94);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-top:1px solid var(--line);display:flex;justify-content:space-around;align-items:flex-start;padding-top:10px;z-index:10}
+.tab{color:var(--mute);font-size:9.5px;text-align:center;line-height:1.2;background:none;border:0;cursor:pointer;padding:2px 4px;min-width:46px}
+.tab b{display:block;font-size:14px;font-weight:600;margin-bottom:3px}
+.tab.on{color:var(--green)}
+.tab .dot{display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--red);margin-left:3px;vertical-align:2px}
+
+/* cards */
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px 13px;margin-top:12px}
+.lbl{font-size:10.5px;color:var(--dim);letter-spacing:.08em;text-transform:uppercase;display:flex;justify-content:space-between;gap:8px}
+.big{font-size:30px;font-weight:800;letter-spacing:-1px;line-height:1.1;margin-top:4px;font-variant-numeric:tabular-nums}
+.big small{font-size:12px;color:var(--dim);font-weight:400;letter-spacing:0;margin-left:6px}
+.bar{height:12px;background:#0d1014;border:1px solid var(--line2);border-radius:6px;overflow:hidden;margin-top:10px}
+.bar .fill{height:100%;width:0;background:repeating-linear-gradient(90deg,var(--green) 0 8px,#2fb56a 8px 12px);transition:width 1s cubic-bezier(.2,.8,.2,1)}
+.bar .fill.danger{background:repeating-linear-gradient(90deg,var(--red) 0 8px,#c93e3e 8px 12px)}
+.status-line{margin-top:8px;color:var(--dim);font-size:11.5px;min-height:16px}
+.dots::after{content:"";animation:dots 1.5s steps(4) infinite}
+@keyframes dots{0%{content:""}25%{content:"."}50%{content:".."}75%{content:"..."}}
+.timer{display:flex;gap:6px;margin-top:10px;align-items:baseline}
+.timer .seg{background:#0d1014;border:1px solid var(--line2);border-radius:8px;padding:6px 0;text-align:center;flex:1}
+.timer .seg b{display:block;font-size:20px;font-weight:800;letter-spacing:-.5px;font-variant-numeric:tabular-nums}
+.timer .seg span{font-size:9px;color:var(--mute);text-transform:uppercase;letter-spacing:.08em}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.stat{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:11px 12px;position:relative;overflow:hidden}
+.stat .k{font-size:10px;color:var(--dim);text-transform:uppercase;letter-spacing:.06em}
+.stat .v{font-size:21px;font-weight:800;letter-spacing:-.5px;margin-top:3px;font-variant-numeric:tabular-nums;transition:transform .2s}
+.stat .v.bump{transform:scale(1.08)}
+.stat .n{font-size:10px;color:var(--mute);margin-top:4px;line-height:1.35}
+.g{color:var(--green)} .a{color:var(--amber)} .b{color:var(--blue)} .p{color:var(--purple)} .r{color:var(--red)}
+.btn{display:inline-flex;align-items:center;gap:6px;margin-top:10px;border:1px solid var(--line2);background:var(--panel2);color:var(--fg);border-radius:8px;padding:8px 12px;font-size:12px;cursor:pointer;transition:transform .08s,border-color .15s,color .15s}
+.btn:active{transform:scale(.97)}
+.btn:hover{border-color:var(--green);color:var(--green)}
+.btn.red:hover{border-color:var(--red);color:var(--red)}
+.btn.wide{width:100%;justify-content:center}
+.keys{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px}
+.key{background:var(--panel);border:1px solid var(--line);border-bottom:3px solid var(--line2);border-radius:9px;padding:9px 4px;text-align:center;cursor:pointer;user-select:none;color:var(--fg)}
+.key:active{transform:translateY(2px);border-bottom-width:1px}
+.key kbd{display:block;font-family:inherit;font-weight:700;font-size:11.5px}
+.key span{display:block;font-size:9px;color:var(--mute);margin-top:4px;line-height:1.2}
+.quote{margin-top:12px;border-left:3px solid var(--claude);padding:8px 12px;color:var(--dim);font-size:12px;font-style:italic;min-height:44px;transition:opacity .3s}
+.quote.fade{opacity:0}
+.next{display:flex;gap:10px;align-items:flex-start;margin-top:8px}
+.next .hash{color:var(--amber);flex:none}
+.next p{font-size:12px}
+
+/* terminal */
+.term{background:#07090b;border:1px solid var(--line);border-radius:12px;padding:11px 12px;margin-top:12px;font-size:11px;line-height:1.55;height:340px;overflow:hidden;position:relative}
+.term .body{position:absolute;inset:11px 12px;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end}
+.term div{white-space:pre-wrap;word-break:break-word}
+.term .t{color:var(--mute)} .term .ok{color:var(--green)} .term .warn{color:var(--amber)} .term .err{color:var(--red)} .term .sp{color:var(--purple)} .term .in{color:var(--blue)}
+.term.halt{border-color:rgba(255,92,92,.5)}
+.term .scan{position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(0deg,transparent 0 3px,rgba(255,255,255,.015) 3px 4px)}
+
+/* soro */
+.scene{background:#0d1116;border:1px solid var(--line);border-radius:12px;margin-top:12px;overflow:hidden}
+.scene svg{display:block;width:100%;height:auto}
+.vitals{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
+.vital{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:8px 9px}
+.vital .k{font-size:9.5px;color:var(--dim);text-transform:uppercase;letter-spacing:.06em}
+.vital .v{font-size:18px;font-weight:800;margin-top:2px;font-variant-numeric:tabular-nums}
+.vital .v small{font-size:9.5px;color:var(--mute);font-weight:400;margin-left:2px}
+.ecg{background:#07090b;border:1px solid var(--line);border-radius:10px;margin-top:10px;padding:6px 8px;position:relative;overflow:hidden}
+.ecg svg{display:block;width:100%;height:56px}
+.ecg .bpm{position:absolute;top:6px;right:10px;font-size:10px;color:var(--green)}
+.ecg polyline{fill:none;stroke:var(--green);stroke-width:1.6;stroke-dasharray:600;stroke-dashoffset:600;animation:ecg 2.4s linear infinite}
+@keyframes ecg{to{stroke-dashoffset:0}}
+.ecg.crit polyline{stroke:var(--red);animation-duration:1.1s}
+.ecg.crit .bpm{color:var(--red)}
+.flash{animation:flash .5s 3}
+@keyframes flash{50%{box-shadow:inset 0 0 0 200px rgba(255,92,92,.14)}}
+
+/* recaída */
+.gauge{height:10px;background:#0d1014;border:1px solid var(--line2);border-radius:5px;overflow:hidden;margin-top:8px}
+.gauge i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--green),var(--amber) 60%,var(--red));transition:width .8s}
+.hist{list-style:none;margin-top:6px}
+.hist li{display:flex;justify-content:space-between;gap:8px;padding:7px 0;border-bottom:1px dashed var(--line);font-size:11.5px}
+.hist li span:last-child{color:var(--mute);flex:none;font-size:10.5px}
+.hist li.new{animation:pop .4s}
+@keyframes pop{0%{background:rgba(180,140,255,.18)}100%{background:transparent}}
+.shake{animation:shake .4s}
+@keyframes shake{20%{transform:translateX(-5px)}40%{transform:translateX(5px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
+
+/* commits */
+.log{list-style:none;margin-top:8px}
+.log li{display:grid;grid-template-columns:52px 16px 1fr;gap:8px;padding:9px 0;border-bottom:1px dashed var(--line);font-size:11.5px;align-items:start}
+.log .h{color:var(--amber)} .log .c{color:var(--green);font-weight:700}
+.log li.todo{color:var(--dim)} .log li.todo .h,.log li.todo .c{color:var(--mute)}
+.log li.wip .c{color:var(--blue)} .log li.wip .m::after{content:"  ← HEAD";color:var(--blue)}
+.branch{color:var(--dim);font-size:11px;margin-top:6px}
+.branch b{color:var(--purple);font-weight:500}
+
+/* config */
+.sec{font-size:10.5px;color:var(--dim);letter-spacing:.08em;text-transform:uppercase;margin:16px 0 4px}
+.row{display:flex;justify-content:space-between;gap:10px;padding:10px 0;border-bottom:1px solid var(--line);align-items:center}
+.row .t{font-size:12px;font-weight:500}
+.row .d{font-size:10.5px;color:var(--mute);margin-top:2px;line-height:1.35}
+.sw{flex:none;width:38px;height:22px;border-radius:12px;background:#2a3038;position:relative;cursor:pointer;transition:background .2s;border:0}
+.sw::after{content:"";position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:#8b96a3;transition:transform .2s,background .2s}
+.sw.on{background:var(--green)} .sw.on::after{transform:translateX(16px);background:#052}
+.danger{border:1px solid rgba(255,92,92,.35);background:rgba(255,92,92,.05);border-radius:12px;padding:12px 13px;margin-top:14px}
+.danger .lbl{color:var(--red)} .danger p{font-size:11px;color:var(--dim);margin-top:4px}
+.fine{color:var(--mute);font-size:10px;margin-top:16px;line-height:1.5;text-align:center}
+
+/* toast + confetti */
+.toast{position:absolute;left:12px;right:12px;top:calc(56px + var(--sat));background:rgba(23,27,33,.97);border:1px solid var(--line2);border-radius:14px;padding:11px 13px;box-shadow:0 12px 30px rgba(0,0,0,.5);z-index:30;transform:translateY(-160%);transition:transform .45s cubic-bezier(.2,.9,.2,1)}
+.toast.show{transform:translateY(0)}
+.toast .app-name{font-size:10px;color:var(--mute);text-transform:uppercase;letter-spacing:.08em;display:flex;justify-content:space-between}
+.toast p{font-size:12px;margin-top:4px;line-height:1.4}
+.toast .acts{display:flex;gap:8px;margin-top:8px}
+.toast .acts button{flex:1;border:1px solid var(--line2);background:transparent;color:var(--fg);font-size:11px;border-radius:7px;padding:6px;cursor:pointer}
+.tok{position:absolute;top:-20px;font-size:10px;font-weight:700;color:var(--green);pointer-events:none;z-index:25;animation:fall 1.6s ease-in forwards}
+@keyframes fall{to{transform:translateY(900px) rotate(360deg);opacity:0}}
+.home-ind{position:absolute;bottom:calc(7px + var(--sab));left:50%;transform:translateX(-50%);width:130px;height:5px;border-radius:5px;background:#2b3139;z-index:11}
+</style>
+</head>
+<body>
+<div class="frame">
+  <div class="notch"></div>
+  <div class="app" id="app">
+    <div class="status"><span id="clock">03:47</span><span>▂▄▆ <span class="bat" id="bat">4%</span></span></div>
+    <div class="topbar"><span class="u">odin@rehab</span><span class="p" id="tpPath">~/rehab $</span><span class="c" id="tpCmd">detoken --status</span><span class="cur"></span></div>
+
+    <div class="toast" id="toast">
+      <div class="app-name"><span>Detoken · Appcoólicos Anônimos</span><span>agora</span></div>
+      <p id="toastMsg"></p>
+      <div class="acts"><button onclick="hideToast()">Ok</button><button onclick="hideToast(true)">Ok, mas triste</button></div>
+    </div>
+
+    <div class="screens">
+
+      <!-- ============ 1. HOME ============ -->
+      <section class="screen on" id="s-home">
+        <div class="head"><div class="logo" id="logo-home"></div><div><h2>Detoken</h2><div class="ver">appcoólicos anônimos · build 0.0.1-alpha · nunca sairá de alpha</div></div></div>
+
+        <div class="card">
+          <div class="lbl"><span>Progresso da cura</span><span id="pctLbl">37%</span></div>
+          <div class="big"><span id="pctBig">37</span>%<small>meta: 100% (irreal)</small></div>
+          <div class="bar"><div class="fill" id="fill"></div></div>
+          <div class="status-line"><span id="statusTxt">Compilando força de vontade</span><span class="dots"></span></div>
+        </div>
+
+        <div class="card">
+          <div class="lbl"><span>Tempo sem codar</span><span id="sinceLbl">desde a 1ª visita</span></div>
+          <div class="timer">
+            <div class="seg"><b id="tD">0</b><span>dias</span></div>
+            <div class="seg"><b id="tH">00</b><span>horas</span></div>
+            <div class="seg"><b id="tM">00</b><span>min</span></div>
+            <div class="seg"><b id="tS">00</b><span>seg</span></div>
+          </div>
+          <div class="status-line" id="sinceNote">recorde pessoal: este. parabéns, acho.</div>
+        </div>
+
+        <div class="grid">
+          <div class="stat"><div class="k">Tokens economizados</div><div class="v g" id="tok">4,2M</div><div class="n">o suficiente para 1 app que ninguém usaria</div></div>
+          <div class="stat"><div class="k">Horas recuperadas</div><div class="v b" id="hrs">142h</div><div class="n">devolvidas à família, que já não te reconhece</div></div>
+          <div class="stat"><div class="k">Dinheiro poupado</div><div class="v a" id="brl">R$ 1.847</div><div class="n">domínios .app + VPS p/ 0 usuários + 1 mês de plano</div></div>
+          <div class="stat"><div class="k">Apps NÃO criados</div><div class="v p" id="apps">14</div><div class="n">todos revolucionários, segundo você às 3h</div></div>
+        </div>
+
+        <div class="card">
+          <div class="lbl"><span>Próximo commit</span><span id="stepLbl">4 / 12</span></div>
+          <div class="next"><span class="hash" id="stepHash">e4f5a6</span><p id="stepTxt">Fazer um inventário moral dos meus 14 MVPs abandonados.</p></div>
+          <button class="btn" onclick="commit()">$ git commit -m "aceito"</button>
+        </div>
+
+        <div class="keys">
+          <button class="key" onclick="key('ctrlc')"><kbd>Ctrl+C</kbd><span>pânico</span></button>
+          <button class="key" onclick="key('q')"><kbd>:q!</kbd><span>sair sem salvar a ideia</span></button>
+          <button class="key" onclick="key('stash')"><kbd>git stash</kbd><span>guardar p/ nunca</span></button>
+          <button class="key" onclick="key('sudo')"><kbd>sudo</kbd><span>pedir permissão à esposa</span></button>
+        </div>
+
+        <div class="quote" id="quote"></div>
+        <div class="fine">Você abriu esta página. Isso conta como abrir o Claude. Progresso ajustado.</div>
+      </section>
+
+      <!-- ============ 2. SORO ============ -->
+      <section class="screen" id="s-soro">
+        <div class="head"><div class="logo" id="logo-soro"></div><div><h2>Internação</h2><div class="ver">ala de desintoxicação · leito 0001 · alta prevista: nunca</div></div></div>
+        <div class="scene" id="scene"></div>
+        <div class="vitals">
+          <div class="vital"><div class="k">Vazão</div><div class="v g" id="vFlow">38<small>tok/min</small></div></div>
+          <div class="vital"><div class="k">BPP</div><div class="v a" id="vBpm">112<small>bat/prompt</small></div></div>
+          <div class="vital"><div class="k">Sat. ideias</div><div class="v b" id="vSat">97<small>%</small></div></div>
+        </div>
+        <div class="ecg" id="ecg"><span class="bpm" id="ecgLbl">ritmo: sinusal, ansioso</span><svg viewBox="0 0 300 56" preserveAspectRatio="none"><polyline points="0,30 30,30 40,30 45,22 50,38 55,30 80,30 90,30 95,8 100,52 105,30 130,30 140,30 145,22 150,38 155,30 180,30 190,30 195,8 200,52 205,30 230,30 240,30 245,22 250,38 255,30 300,30"/></svg></div>
+        <div class="card">
+          <div class="lbl"><span>Prescrição</span><span id="rxId">RX-2026-0347</span></div>
+          <p style="font-size:12px;margin-top:6px;color:var(--dim)" id="rxTxt">Soro de tokens em dose decrescente. Zero prompts por via oral. Contato com grama 2x ao dia.</p>
+          <div style="display:flex;gap:8px">
+            <button class="btn" onclick="flow(1)">+ aumentar vazão</button>
+            <button class="btn" onclick="flow(-1)">− reduzir</button>
+            <button class="btn red" onclick="pullIv()">arrancar o soro</button>
+          </div>
+        </div>
+        <div class="fine">O soro não contém tokens de verdade. Se contivesse, você já teria pedido a bolsa inteira.</div>
+      </section>
+
+      <!-- ============ 3. TERMINAL ============ -->
+      <section class="screen" id="s-log">
+        <div class="head"><div class="logo" id="logo-log"></div><div><h2>Processo de cura</h2><div class="ver">PID 3047 · rodando há <span id="pidUp">0s</span> · nunca vai terminar</div></div></div>
+        <div class="term" id="term"><div class="body" id="termBody"></div><div class="scan"></div></div>
+        <div style="display:flex;gap:8px">
+          <button class="btn red wide" id="panicBtn" onclick="panic()">Ctrl+C · PÂNICO</button>
+          <button class="btn wide" onclick="resume()">retomar</button>
+        </div>
+        <div class="card">
+          <div class="lbl"><span>Processos bloqueados hoje</span><span id="blocked">7</span></div>
+          <p style="font-size:11.5px;color:var(--dim);margin-top:6px">claude.ai · cursor · replit · lovable · v0 · bolt · o seu terminal · o seu bloco de notas, por precaução</p>
+        </div>
+      </section>
+
+      <!-- ============ 4. RECAÍDA ============ -->
+      <section class="screen" id="s-recaida">
+        <div class="head"><div class="logo" id="logo-recaida"></div><div><h2>Overdose de prompt</h2><div class="ver">monitor de recaída · sensibilidade: máxima</div></div></div>
+        <div class="card">
+          <div class="lbl"><span>Próxima recaída prevista em</span><span class="r">● ao vivo</span></div>
+          <div class="timer">
+            <div class="seg"><b id="cH">00</b><span>horas</span></div>
+            <div class="seg"><b id="cM">00</b><span>min</span></div>
+            <div class="seg"><b id="cS">00</b><span>seg</span></div>
+          </div>
+          <div class="status-line" id="cdNote">estimativa baseada no seu histórico. o seu histórico é ruim.</div>
+        </div>
+        <div class="card">
+          <div class="lbl"><span>Pressão de ideias</span><span id="presLbl">41 kPa</span></div>
+          <div class="gauge"><i id="pres"></i></div>
+          <div class="status-line" id="presNote">zona segura até 60. acima disso você abre o terminal "só pra ver".</div>
+        </div>
+        <div class="card">
+          <div class="lbl"><span>Ideias confessadas → /dev/null</span><span id="devnull">3</span></div>
+          <ul class="hist" id="hist"></ul>
+          <button class="btn wide" id="confessBtn" onclick="confess()">confessar uma ideia agora</button>
+        </div>
+        <div class="fine">Cada ideia confessada é encaminhada ao /dev/null com certificado. Nenhuma foi lida. Nenhuma será.</div>
+      </section>
+
+      <!-- ============ 5. COMMITS ============ -->
+      <section class="screen" id="s-commits">
+        <div class="head"><div class="logo" id="logo-commits"></div><div><h2>Os 12 Commits</h2><div class="ver">git log --oneline vicio</div></div></div>
+        <div class="branch">branch <b>recuperacao</b> · <span id="ahead">3</span> ahead, 14 behind <b>origin/vicio</b> · conflitos: sua personalidade</div>
+        <ul class="log" id="steps"></ul>
+        <div class="card">
+          <div class="lbl"><span>Sponsor Sintético</span><span class="g">● online</span></div>
+          <p style="font-size:12px;margin-top:6px;color:var(--dim)">Um Claude ajustado para responder qualquer prompt com uma única palavra. Consome 1 token. Economiza 400 mil.</p>
+          <button class="btn" onclick="sponsor()">Posso fazer só um appzinho?</button>
+          <div id="sponsorOut" style="margin-top:8px;font-size:12px;color:var(--purple);min-height:18px"></div>
+        </div>
+      </section>
+
+      <!-- ============ 6. CONFIG ============ -->
+      <section class="screen" id="s-config">
+        <div class="head"><div class="logo" id="logo-config"></div><div><h2>Funcionalidades</h2><div class="ver">~/.rehabrc · todas testadas em produção. nenhuma testada.</div></div></div>
+        <div id="rows"></div>
+        <div class="card" id="installRow" style="display:none">
+          <div class="lbl"><span>Instalar no celular</span><span class="g">● disponível</span></div>
+          <p style="font-size:12px;margin-top:6px;color:var(--dim)">Coloca o Detoken na sua tela de início, com o ícone do mascote chapado, funcionando offline e sem barra de navegador. Sim: um app para instalar, que serve para você parar de fazer apps.</p>
+          <button class="btn wide" onclick="installApp()">+ instalar Detoken</button>
+        </div>
+
+        <div class="danger">
+          <div class="lbl">Zona de perigo</div>
+          <p>Zera o progresso, o streak e a sua dignidade. Sem confirmação, porque você também nunca pede.</p>
+          <button class="btn red" id="relapseBtn" onclick="relapse()">$ rm -rf ~/progresso</button>
+        </div>
+        <div class="fine">Este app foi feito com IA em 6 minutos.<br>Estamos cientes da ironia. Ela faz parte do tratamento.<br><br>detoken.bitbeagle.com · v0.0.1-alpha · 0 usuários ativos (você não conta)</div>
+      </section>
+
+    </div>
+
+    <nav class="tabbar" id="tabs">
+      <button class="tab on" data-s="home"><b>~/</b>home</button>
+      <button class="tab" data-s="soro"><b>⌇</b>soro</button>
+      <button class="tab" data-s="log"><b>&gt;_</b>log</button>
+      <button class="tab" data-s="recaida"><b>@</b>recaída<span class="dot"></span></button>
+      <button class="tab" data-s="commits"><b>◆</b>commits</button>
+      <button class="tab" data-s="config"><b>rc</b>config</button>
+    </nav>
+    <div class="home-ind"></div>
+  </div>
+</div>
+<div class="desk"><b>detoken.bitbeagle.com</b> · abra no celular para a experiência completa · ou não abra. essa é a ideia.</div>
+
+<script>
+/* ================= mascotes ================= */
+const WOB='<filter id="wob" x="-12%" y="-12%" width="124%" height="124%"><feTurbulence type="fractalNoise" baseFrequency="0.05" numOctaves="2" seed="7" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2.2"/></filter>';
+function rays(n,color,len,w,jitter,seed){let s='',r=seed;const rand=()=>{r=(r*9301+49297)%233280;return r/233280;};
+  for(let i=0;i<n;i++){const a=i*360/n*Math.PI/180,L=len+(rand()-.5)*jitter;
+    s+=`<line x1="${(Math.cos(a)*12).toFixed(1)}" y1="${(Math.sin(a)*12).toFixed(1)}" x2="${(Math.cos(a)*L).toFixed(1)}" y2="${(Math.sin(a)*L).toFixed(1)}" stroke="${color}" stroke-width="${w}" stroke-linecap="round"/>`}return s;}
+function veins(cx,cy,rx,ry,k,seed){let s='',r=seed;const rand=()=>{r=(r*9301+49297)%233280;return r/233280;};
+  for(let i=0;i<k;i++){const a=rand()*Math.PI*2,x=cx+Math.cos(a)*rx*.95,y=cy+Math.sin(a)*ry*.95,mx=cx+Math.cos(a)*rx*.5+(rand()-.5)*3,my=cy+Math.sin(a)*ry*.5+(rand()-.5)*3;
+    s+=`<path d="M${x.toFixed(1)} ${y.toFixed(1)} Q${mx.toFixed(1)} ${my.toFixed(1)} ${(cx+Math.cos(a)*rx*.25).toFixed(1)} ${(cy+Math.sin(a)*ry*.25).toFixed(1)}" stroke="#ff4d4d" stroke-width="1.1" fill="none" opacity=".85"/>`}return s;}
+function eye(cx,cy,rx,ry,o){o=o||{};let s=`<ellipse cx="${cx}" cy="${cy}" rx="${rx}" ry="${ry}" fill="#fff" stroke="#1a1a1a" stroke-width="2.2"/>`;
+  if(o.dead)return s+`<path d="M${cx-4} ${cy-4} l8 8 M${cx+4} ${cy-4} l-8 8" stroke="#1a1a1a" stroke-width="2.6" stroke-linecap="round"/>`;
+  s+=veins(cx,cy,rx,ry,6,o.seed||1);
+  if(o.spiral){s+=`<g class="spiral" style="transform-origin:${cx}px ${cy}px"><path d="M${cx} ${cy} a1 1 0 0 1 2 0 a2.4 2.4 0 0 1 -4.4 1.2 a3.8 3.8 0 0 1 6.5 -3.2 a5.2 5.2 0 0 1 -8.8 5" stroke="#1a1a1a" stroke-width="1.6" fill="none" stroke-linecap="round"/></g>`;}
+  else{const p=o.pupil||3.2,px=o.px||0,py=o.py||0;s+=`<circle cx="${cx+px}" cy="${cy+py}" r="${p}" fill="#1a1a1a"/><circle cx="${cx+px-1.2}" cy="${cy+py-1.2}" r="1" fill="#fff"/>`;}
+  const lid=o.lid==null?.45:o.lid;
+  s+=`<path d="M${cx-rx-1} ${cy-ry*(1-lid*1.4)} Q${cx} ${cy-ry+ry*lid*2} ${cx+rx+1} ${cy-ry*(1-lid*1.4)} L${cx+rx+1} ${cy-ry-2} L${cx-rx-1} ${cy-ry-2} Z" fill="${o.fill||'#D97757'}" stroke="#1a1a1a" stroke-width="2"/>`;
+  s+=`<path d="M${cx-rx*.8} ${cy+ry+2.5} Q${cx} ${cy+ry+6} ${cx+rx*.8} ${cy+ry+2.5}" stroke="#1a1a1a" stroke-width="1.5" fill="none" opacity=".7"/>`;return s;}
+const drool=(x,y,len,c)=>`<path d="M${x} ${y} q-3 ${len*.5} 0 ${len} q3 -${len*.5} 0 -${len}" fill="${c||'#7CE37C'}" stroke="#1a1a1a" stroke-width="1.6"/><ellipse cx="${x}" cy="${y+len-1}" rx="2.6" ry="2.3" fill="${c||'#7CE37C'}" stroke="#1a1a1a" stroke-width="1.4"/>`;
+const M={
+  classico:`<g filter="url(#wob)">${rays(8,'#D97757',40,15,6,3)}<circle r="19" fill="#D97757"/>${eye(-8,-3,8,7,{pupil:3.2,px:1,py:1,lid:.5,seed:2})}${eye(9,-2,7,6,{pupil:4.4,px:-1,py:1,lid:.3,seed:9})}<path d="M-9 10 q4 3 8 0 q3 -2 8 1" stroke="#1a1a1a" stroke-width="2.2" fill="none" stroke-linecap="round"/>${drool(6,11,13)}</g>`,
+  clinica:`<g filter="url(#wob)">${rays(8,'#D97757',36,14,6,5)}<circle r="18" fill="#D97757"/>${eye(-7,-3,7,6,{pupil:2.6,py:1.5,lid:.55,seed:4})}${eye(8,-2,6.5,6,{pupil:2.6,py:1.5,lid:.55,seed:6})}<path d="M-7 9 q7 -3 14 1" stroke="#1a1a1a" stroke-width="2.2" fill="none" stroke-linecap="round"/></g>`,
+  overdose:`<g filter="url(#wob)">${rays(8,'#D97757',40,15,8,11)}<circle r="19" fill="#D97757"/>${eye(-8,-3,8,7.5,{spiral:true,lid:.2,seed:3})}${eye(9,-3,8,7.5,{spiral:true,lid:.2,seed:8})}<ellipse cx="1" cy="11" rx="4.5" ry="3.5" fill="#1a1a1a"/><ellipse cx="1" cy="12.5" rx="2.6" ry="1.4" fill="#ff8a8a"/>${drool(-3,13,10)}</g>`,
+  terminal:`<g filter="url(#wob)">${rays(8,'#3ddc84',36,14,6,3)}<circle r="19" fill="#3ddc84"/>${eye(-8,-3,7.5,6.5,{dead:true})}${eye(9,-3,7.5,6.5,{dead:true})}<path d="M-8 10 q8 -6 16 0" stroke="#1a1a1a" stroke-width="2.4" fill="none" stroke-linecap="round"/>${drool(5,10,9,'#3ddc84')}</g>`,
+  corporate:`<g>${rays(8,'#1c1a17',38,14,0,1)}<circle r="18" fill="#1c1a17"/><ellipse cx="-7" cy="-2" rx="6" ry="5.5" fill="#fff"/><circle cx="-6" cy="-1" r="2.6" fill="#1c1a17"/><ellipse cx="8" cy="-2" rx="6" ry="5.5" fill="#fff"/><circle cx="8" cy="0" r="2.6" fill="#1c1a17"/><path d="M2 -7.5 Q8 -10 14 -7.5 L14 -9 L2 -9 Z" fill="#1c1a17"/><path d="M-6 9 q7 3 13 0" stroke="#fff" stroke-width="2.4" fill="none" stroke-linecap="round"/><path d="M-22 -14 q-3 4 0 7 q3 -3 0 -7z" fill="#8fd3ff"/></g>`
+};
+const icon=(k,bg,sc)=>`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><defs>${WOB}</defs><rect width="100" height="100" fill="${bg}"/><g transform="translate(50 52) scale(${sc||1})">${M[k]}</g></svg>`;
+const $=id=>document.getElementById(id);
+$('logo-home').innerHTML=icon('classico','#1c1a17');
+$('logo-soro').innerHTML=icon('clinica','#E9EEF2');
+$('logo-log').innerHTML=icon('terminal','#050705');
+$('logo-recaida').innerHTML=icon('overdose','#0e0f13');
+$('logo-commits').innerHTML=icon('classico','#1c1a17',.9);
+$('logo-config').innerHTML=icon('corporate','#D97757');
+
+/* ================= estado ================= */
+const KEY='detoken_v1';
+const now=()=>Date.now();
+const rnd=(a,b)=>a+Math.random()*(b-a);
+const ri=(a,b)=>Math.floor(rnd(a,b+1));
+let S=Object.assign({
+  start:now(), pct:37, step:4, relapses:2, tok:4.2, hrs:142, brl:1847, apps:14,
+  devnull:3, blocked:7, flow:38, pres:41, sound:0, nextRelapse:now()+ri(2,9)*3600e3, hist:[], toggles:null, visits:0
+}, JSON.parse(localStorage.getItem(KEY)||'{}'));
+S.visits++;
+const save=()=>localStorage.setItem(KEY,JSON.stringify(S));
+save();
+
+
+/* ================= som (Web Audio · desligado por padrão) ================= */
+let AC=null;
+function ac(){ if(!AC){ try{ AC=new (window.AudioContext||window.webkitAudioContext)(); }catch(e){ AC=false; } } if(AC&&AC.state==='suspended')AC.resume(); return AC; }
+function beep(freq,dur,type,vol,delay){
+  const c=ac(); if(!c) return;
+  const t=c.currentTime+(delay||0);
+  const o=c.createOscillator(), g=c.createGain();
+  o.type=type||'square'; o.frequency.setValueAtTime(freq,t);
+  g.gain.setValueAtTime(0.0001,t);
+  g.gain.exponentialRampToValueAtTime(vol||0.05,t+0.008);
+  g.gain.exponentialRampToValueAtTime(0.0001,t+(dur||0.08));
+  o.connect(g); g.connect(c.destination); o.start(t); o.stop(t+(dur||0.08)+0.02);
+}
+const SFX={
+  tap:()=>beep(880,0.045,'square',0.035),
+  tab:()=>beep(660,0.05,'square',0.03),
+  toast:()=>{beep(760,0.06,'triangle',0.04);beep(1140,0.07,'triangle',0.035,0.07);},
+  commit:()=>[523,659,784,1047].forEach((f,i)=>beep(f,0.11,'square',0.045,i*0.075)),
+  relapse:()=>[440,330,247,165].forEach((f,i)=>beep(f,0.16,'sawtooth',0.05,i*0.09)),
+  confess:()=>{beep(392,0.08,'triangle',0.04);beep(294,0.14,'triangle',0.04,0.09);},
+  alarm:()=>[0,0.18,0.36].forEach(d=>{beep(1100,0.09,'square',0.06,d);beep(820,0.09,'square',0.06,d+0.09);}),
+  no:()=>beep(196,0.18,'sawtooth',0.045),
+  panic:()=>{beep(240,0.22,'sawtooth',0.05);beep(120,0.3,'sawtooth',0.04,0.12);}
+};
+function snd(k){ if(!S.sound) return; try{ (SFX[k]||SFX.tap)(); }catch(e){} }
+
+/* ================= bancos de frases ================= */
+const QUOTES=[
+ 'Você não precisa de mais um app. Nem deste.','"Só mais um prompt" é a frase mais cara da sua vida.','Seu MVP não é mínimo nem viável. É só um produto.',
+ 'Ninguém pediu esse app. Nem você, tecnicamente.','Toque na grama. A grama não tem pricing page.','Se a ideia veio às 3h, ela não conta.',
+ 'Deploy para /dev/null tem 100% de uptime.','Você tem 14 domínios. Um deles é este.','Seu histórico de conversas é a sua ficha médica.',
+ 'O rate limit é o seu Poder Maior. Respeite-o.','Um dia sem npx create- é um dia de vitória.','A ironia deste app foi revisada por 0 humanos.',
+ '"É diferente" é o que você disse dos outros 13.','Seus usuários ativos: você, em aba anônima.','Sanidade não escala horizontalmente.',
+ 'git blame mostra sempre o mesmo nome. O seu.','Você já pagou o suficiente. Este app é grátis por dó.','Não existe versão beta da sua vida.',
+ 'README é a única coisa que você nunca escreveu.','Parabéns: 0 apps criados na última hora. Continue.','Ideias não são commits. Pare de contar.',
+ 'Seu backlog tem mais itens que a sua agenda.','Landing page não é produto. Produto não é empresa. Empresa não é você.'
+];
+const STATUS=['Compilando força de vontade','Resolvendo conflitos com a realidade','Aguardando rate limit','Executando testes de sanidade — 0 passed','Fazendo rollback da última ideia','Instalando dependências emocionais','Limpando cache de MVPs','Reindexando prioridades','Aguardando aprovação da esposa'];
+const PRE=['Tinder','Uber','Duolingo','Netflix','Spotify','Airbnb','Nubank','iFood','Waze','LinkedIn','Strava','Notion','Shopify','Zoom','Trello'];
+const SUF=['para plantas','de caneta','de silêncio','para cachorros tímidos','de boleto','para filas de padaria','de sesta','para avós','de desculpas','de chuveiro','para pedras de estimação','de reunião que podia ser email','para o síndico','de marmita','para gente que não usa app','de ideias de app'];
+const appName=()=>`${PRE[ri(0,PRE.length-1)]} ${SUF[ri(0,SUF.length-1)]}`;
+const TERM=[
+ ['t','$ '],['in','npm install sanidade --save-exact'],
+ ['warn','WARN ideia detectada: "'+appName()+'"'],
+ ['ok','intercept → redirecionado para /dev/null'],
+ ['err','user.open("claude.ai") → BLOCKED'],
+ ['sp','sponsor: "não."'],
+ ['ok','recaída evitada · tokens_salvos += 38.000'],
+ ['in','git push origin recuperacao'],
+ ['t','remote: 0 usuários notificados (nenhum existe)'],
+ ['warn','dominio.app detectado no carrinho · removendo'],
+ ['ok','rm -rf ~/ideias · 213 arquivos removidos'],
+ ['err','ENOENT: força_de_vontade não encontrada'],
+ ['in','sudo touch grass'],
+ ['t','[sudo] senha para odin: ********'],
+ ['ok','grama tocada · 1 vez · insuficiente'],
+ ['warn','heurística "esse é diferente" acionada · confiança: 0%'],
+ ['sp','sponsor: "vá dormir."'],
+ ['in','kill -9 $(pgrep -f "só mais um prompt")'],
+ ['ok','processo finalizado · era você'],
+ ['t','GET /pricing → 403 (bloqueado por ~/.rehabrc)'],
+];
+
+/* ================= navegação ================= */
+const PATHS={home:['~/rehab $','detoken --status'],soro:['~/clinica $','tail -f soro.log'],log:['~/rehab $','ps aux | grep cura'],recaida:['~/recaida $','watch -n1 pressao'],commits:['~/rehab $','git log --oneline vicio'],config:['~ $','vim ~/.rehabrc']};
+document.querySelectorAll('.tab').forEach(t=>t.onclick=()=>go(t.dataset.s));
+function go(k){
+  snd('tab');
+  document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('on',s.id==='s-'+k));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('on',t.dataset.s===k));
+  $('tpPath').textContent=PATHS[k][0];$('tpCmd').textContent=PATHS[k][1];
+  if(k==='recaida'){const d=document.querySelector('.tab[data-s=recaida] .dot');if(d)d.remove();}
+}
+
+/* ================= toast + confete ================= */
+let tt;
+function toast(t,m){snd('toast');$('toastMsg').innerHTML=`<b>${t}</b><br>${m}`;$('toast').classList.add('show');clearTimeout(tt);tt=setTimeout(hideToast,5500);}
+function hideToast(sad){$('toast').classList.remove('show');if(sad)logLine('warn','humor do usuário: triste · ideia de "app de humor" bloqueada preventivamente');}
+function confetti(n){for(let i=0;i<(n||18);i++){const e=document.createElement('span');e.className='tok';e.textContent=['tok','$','*','0x','::'][ri(0,4)];e.style.left=rnd(4,96)+'%';e.style.animationDelay=rnd(0,.6)+'s';e.style.color=['#3ddc84','#f5b83d','#b48cff','#D97757'][ri(0,3)];$('app').appendChild(e);setTimeout(()=>e.remove(),2400);}}
+
+/* ================= home ================= */
+const STEPS=['Admiti que sou impotente diante de um textarea vazio.','Passei a acreditar que um Poder Maior (o rate limit) poderia me devolver a sanidade.','Decidi entregar minhas ideias aos cuidados do /dev/null.','Fiz um inventário moral dos meus 14 MVPs abandonados.','Admiti a mim mesmo, ao Claude e a outro ser humano que "só mais um prompt" era mentira.','Fiquei inteiramente pronto para que meu histórico de conversas fosse apagado.','Humildemente pedi à IA que parasse de ser tão prestativa.','Fiz uma lista de todas as pessoas para quem mandei link de app às 3h da manhã.','Pedi desculpas a elas, exceto quando isso exigisse criar um app de desculpas.','Continuei o inventário e, quando comecei um npx create-, admiti prontamente.','Busquei, através da meditação, contato consciente com a grama.','Tendo tido um despertar espiritual, levei a mensagem a outros appcoólicos — sem fazer um app para isso.'];
+const HASH=['a1b2c3','d4e5f6','7a8b9c','e4f5a6','b7c8d9','0e1f2a','3b4c5d','6e7f8a','9b0c1d','2e3f4a','5b6c7d','8e9f0a'];
+const fmtM=v=>v.toFixed(1).replace('.',',')+'M';
+function render(){
+  const fill=$('fill');fill.style.width=S.pct+'%';fill.classList.toggle('danger',S.pct<10);
+  $('pctLbl').textContent=Math.round(S.pct)+'%';$('pctBig').textContent=Math.round(S.pct);
+  $('tok').textContent=fmtM(S.tok);$('hrs').textContent=Math.round(S.hrs)+'h';$('brl').textContent='R$ '+Math.round(S.brl).toLocaleString('pt-BR');$('apps').textContent=S.apps;
+  $('stepLbl').textContent=S.step+' / 12';$('stepHash').textContent=HASH[S.step-1];$('stepTxt').textContent=STEPS[S.step-1]+(S.relapses>2&&S.step===1?' De novo.':'');
+  $('ahead').textContent=S.step-1;
+  $('steps').innerHTML=STEPS.map((s,i)=>`<li class="${i+1<S.step?'':i+1===S.step?'wip':'todo'}"><span class="h">${HASH[i]}</span><span class="c">${i+1<S.step?'✓':i+1===S.step?'●':'○'}</span><span class="m">${s}</span></li>`).join('');
+  $('devnull').textContent=S.devnull;$('blocked').textContent=S.blocked;
+  $('vFlow').innerHTML=S.flow+'<small>tok/min</small>';
+  $('pres').style.width=S.pres+'%';$('presLbl').textContent=S.pres+' kPa';
+  $('hist').innerHTML=S.hist.slice(0,6).map((h,i)=>`<li class="${i===0&&h.fresh?'new':''}"><span>${h.n}</span><span>→ /dev/null · ${h.t}</span></li>`).join('')||'<li><span style="color:var(--mute)">nenhuma ideia confessada ainda. suspeito.</span><span></span></li>';
+  save();
+}
+function bump(id){const e=$(id);e.classList.add('bump');setTimeout(()=>e.classList.remove('bump'),220);}
+function commit(){
+  if(S.pct>=100){toast('Nada a commitar.','Working tree limpo. Você também. Estranho, né?');return;}
+  S.pct=Math.min(100,S.pct+8);S.tok+=.3;S.hrs+=9;S.brl+=129;
+  if(S.step<12)S.step++;
+  render();confetti();snd('commit');['tok','hrs','brl'].forEach(bump);
+  logLine('ok',`commit ${HASH[S.step-2]} · cura += 8% · nenhum app foi criado durante este commit`);
+  toast('Commit aceito.',S.pct>=100?'Cura em 100%. Isso nunca aconteceu antes. Não sabemos o que fazer.':`Cura em ${Math.round(S.pct)}%. Ainda dá tempo de estragar tudo.`);
+}
+function relapse(){
+  snd('relapse');$('relapseBtn').classList.add('shake');setTimeout(()=>$('relapseBtn').classList.remove('shake'),450);
+  S.pct=0;S.step=1;S.relapses++;S.apps=Math.max(0,S.apps-1);S.start=now();S.pres=Math.min(99,S.pres+30);
+  render();logLine('err','rm -rf ~/progresso · recaída #'+S.relapses+' registrada · git blame: você');
+  toast('Recaída detectada.','Progresso: 0%. Culpa: sua. Novo app em andamento: "Recaída Tracker Pro". Nós avisamos.');
+}
+const KEYS={ctrlc:['Ctrl+C recebido.','Processo "ideia brilhante" finalizado. Ela não era brilhante.'],q:[':q!','Saiu sem salvar a ideia. Ninguém sentirá falta.'],stash:['git stash','Ideia guardada com as outras 213. Nunca mais será vista.'],sudo:['sudo: permissão negada','Sua esposa respondeu: "de novo?"']};
+function key(k){snd('tap');toast(...KEYS[k]);S.tok+=.01;render();bump('tok');}
+
+/* status rotativo + frases */
+let qi=ri(0,QUOTES.length-1),si=0;
+function rotQuote(){const q=$('quote');q.classList.add('fade');setTimeout(()=>{qi=(qi+1)%QUOTES.length;q.textContent='“'+QUOTES[qi]+'”';q.classList.remove('fade');},300);}
+$('quote').textContent='“'+QUOTES[qi]+'”';setInterval(rotQuote,7000);
+setInterval(()=>{si=(si+1)%STATUS.length;$('statusTxt').textContent=STATUS[si];},4200);
+
+/* números vivos */
+setInterval(()=>{
+  const r=Math.random();
+  if(r<.4){S.tok+=rnd(.01,.06);bump('tok');}else if(r<.7){S.brl+=ri(1,17);bump('brl');}else if(r<.9){S.hrs+=rnd(.1,.6);bump('hrs');}
+  else{S.pct=Math.max(1,Math.min(100,S.pct+rnd(-.6,.9)));}
+  S.pres=Math.max(5,Math.min(99,S.pres+ri(-2,3)));
+  render();
+},3500);
+
+/* tempo sem codar */
+function tick(){
+  const d=Math.max(0,now()-S.start),dd=Math.floor(d/864e5),h=Math.floor(d/36e5)%24,m=Math.floor(d/6e4)%60,s=Math.floor(d/1e3)%60;
+  $('tD').textContent=dd;$('tH').textContent=String(h).padStart(2,'0');$('tM').textContent=String(m).padStart(2,'0');$('tS').textContent=String(s).padStart(2,'0');
+  $('sinceNote').textContent=dd===0&&h===0?'recorde pessoal: este. parabéns, acho.':dd===0?'já é mais do que a última tentativa.':dd<3?'dia '+dd+'. "é diferente dessa vez", você diz.':'dia '+dd+'. ninguém acreditava. nós ainda não acreditamos.';
+  // countdown recaída
+  let left=S.nextRelapse-now();
+  if(left<=0){S.nextRelapse=now()+ri(2,9)*3600e3;S.devnull++;save();toast('Recaída evitada.','A janela fechou sem nenhum app criado. O countdown reiniciou, porque nós te conhecemos.');left=S.nextRelapse-now();}
+  $('cH').textContent=String(Math.floor(left/36e5)).padStart(2,'0');$('cM').textContent=String(Math.floor(left/6e4)%60).padStart(2,'0');$('cS').textContent=String(Math.floor(left/1e3)%60).padStart(2,'0');
+  const cn=$('cdNote');if(left<60e4)cn.textContent='menos de 10 min. afaste-se do teclado. do notebook. da casa.';
+  $('clock').textContent=new Date().toTimeString().slice(0,5);
+  $('pidUp').textContent=(dd?dd+'d ':'')+h+'h '+m+'m';
+}
+setInterval(tick,1000);tick();
+setInterval(()=>{const b=$('bat');const v=Math.max(1,parseInt(b.textContent)-(Math.random()<.3?1:0));b.textContent=v+'%';if(v===1)b.textContent='4%';},20000);
+
+/* ================= soro ================= */
+function scene(){
+  $('scene').innerHTML=`<svg viewBox="0 0 360 250" xmlns="http://www.w3.org/2000/svg"><defs>${WOB}
+    <path id="tube" d="M300 110 v28 q0 12 -12 12 h-72" fill="none"/>
+    <clipPath id="bagclip"><rect x="272" y="22" width="56" height="66" rx="8"/></clipPath></defs>
+    <rect width="360" height="250" fill="#0d1116"/>
+    <g stroke="#1c232c" stroke-width="1">${Array.from({length:12},(_,i)=>`<line x1="0" y1="${i*22+10}" x2="360" y2="${i*22+10}"/>`).join('')}</g>
+    <!-- suporte -->
+    <line x1="300" y1="6" x2="300" y2="240" stroke="#3a4552" stroke-width="4"/><rect x="270" y="234" width="60" height="6" rx="3" fill="#3a4552"/>
+    <!-- bolsa -->
+    <rect x="272" y="22" width="56" height="66" rx="8" fill="#f4f7f9" stroke="#1a1a1a" stroke-width="2.5"/>
+    <rect id="fluid" x="272" y="${Math.max(30,88-(20+S.flow*.28))}" width="56" height="70" fill="#7CE37C" clip-path="url(#bagclip)"/>
+    <text x="300" y="38" font-family="JetBrains Mono,monospace" font-size="9" font-weight="700" fill="#1a1a1a" text-anchor="middle">TOKENS</text>
+    <text x="300" y="50" font-family="JetBrains Mono,monospace" font-size="6.5" fill="#1a1a1a" text-anchor="middle" id="bagLbl">${S.flow} tok/min</text>
+    <!-- câmara de gotejamento -->
+    <rect x="292" y="88" width="16" height="22" rx="4" fill="#dfe6ec" stroke="#1a1a1a" stroke-width="2"/>
+    <circle cx="300" cy="94" r="2" fill="#7CE37C"><animate attributeName="cy" values="92;106" dur="${(1.4-S.flow/200).toFixed(2)}s" repeatCount="indefinite"/><animate attributeName="opacity" values="1;1;0" dur="${(1.4-S.flow/200).toFixed(2)}s" repeatCount="indefinite"/></circle>
+    <!-- cadeira -->
+    <path d="M60 206 h150 q10 0 10 10 v14 h-8 v-10 h-154 v10 h-8 v-14 q0-10 10-10z" fill="#1d2733" stroke="#0b0d10" stroke-width="2"/>
+    <!-- mascote -->
+    <g transform="translate(138 150) scale(1.7)">${M.clinica}
+      <rect x="14" y="14" width="18" height="6" rx="3" fill="#fff" stroke="#1a1a1a" stroke-width="1.4" transform="rotate(-40 23 17)"/>
+      <text x="23" y="18.2" font-family="JetBrains Mono,monospace" font-size="3.6" font-weight="700" fill="#1a1a1a" text-anchor="middle" transform="rotate(-40 23 17)">PAT.0001</text>
+    </g>
+    <!-- tubo (por cima do mascote, entrando na "veia" do raio direito) -->
+    <use href="#tube" stroke="#dfe6ec" stroke-width="5" opacity=".9"/>
+    <use href="#tube" stroke="#7CE37C" stroke-width="2.4" stroke-dasharray="6 10" id="tubeflow"><animate attributeName="stroke-dashoffset" from="64" to="0" dur="${(2.6-S.flow/60).toFixed(2)}s" repeatCount="indefinite"/></use>
+    ${[0,.33,.66].map(o=>`<circle r="3.2" fill="#7CE37C" stroke="#1a1a1a" stroke-width="1"><animateMotion dur="${(3.2-S.flow/50).toFixed(2)}s" repeatCount="indefinite" begin="${(o*3).toFixed(1)}s"><mpath href="#tube"/></animateMotion></circle>`).join('')}
+    <!-- agulha + esparadrapo -->
+    <rect x="206" y="146" width="14" height="8" rx="2" fill="#dfe6ec" stroke="#1a1a1a" stroke-width="1.4"/>
+    <rect x="192" y="141" width="22" height="18" rx="4" fill="#f4f7f9" opacity=".92" stroke="#1a1a1a" stroke-width="1.2"/>
+    <text x="203" y="152" font-family="JetBrains Mono,monospace" font-size="4.6" fill="#1a1a1a" text-anchor="middle">espara</text>
+    <text x="203" y="157" font-family="JetBrains Mono,monospace" font-size="4.6" fill="#1a1a1a" text-anchor="middle">drapo</text>
+    <!-- monitor -->
+    <rect x="14" y="14" width="118" height="64" rx="8" fill="#07090b" stroke="#2f3742" stroke-width="2"/>
+    <text x="22" y="30" font-family="JetBrains Mono,monospace" font-size="7.5" fill="#3ddc84">PAT.0001 · leito 1</text>
+    <text x="22" y="43" font-family="JetBrains Mono,monospace" font-size="7.5" fill="#f5b83d" id="monA">prompts/h: 0</text>
+    <text x="22" y="56" font-family="JetBrains Mono,monospace" font-size="7.5" fill="#5aa9ff" id="monB">ideias reprimidas: ${S.devnull}</text>
+    <text x="22" y="69" font-family="JetBrains Mono,monospace" font-size="7.5" fill="#ff5c5c" id="monC">alta: nunca</text>
+  </svg>`;
+}
+scene();
+function flow(d){
+  S.flow=Math.max(2,Math.min(220,S.flow+d*ri(8,18)));scene();render();
+  const ecg=$('ecg');const crit=S.flow>150;ecg.classList.toggle('crit',crit);
+  $('vBpm').innerHTML=(80+Math.round(S.flow*.9))+'<small>bat/prompt</small>';
+  $('ecgLbl').textContent=crit?'ritmo: taquicardia por MVP':S.flow<20?'ritmo: quase humano':'ritmo: sinusal, ansioso';
+  if(crit){snd('alarm');$('app').classList.add('flash');setTimeout(()=>$('app').classList.remove('flash'),1600);toast('ALERTA: overdose de tokens.','Vazão acima do limite. O paciente começou a falar em "SaaS B2B". Reduza imediatamente.');logLine('err','soro: vazão '+S.flow+' tok/min · overdose · sedando com README');}
+  else if(d<0)toast('Vazão reduzida.','O paciente reclamou. Isso é bom sinal. Ou é abstinência. É abstinência.');
+  else toast('Vazão aumentada.','"Só um pouquinho a mais" — ouvimos isso 14 vezes hoje.');
+}
+function pullIv(){S.flow=2;scene();render();$('ecg').classList.remove('crit');$('vBpm').innerHTML='0<small>bat/prompt</small>';$('ecgLbl').textContent='ritmo: paciente fugiu';toast('Paciente arrancou o soro.','Foi visto correndo em direção ao terminal gritando "ideia!". Segurança acionada.');logLine('err','paciente PAT.0001 evadido · destino provável: localhost:3000');S.pres=Math.min(99,S.pres+20);render();}
+setInterval(()=>{if(!document.getElementById('s-soro').classList.contains('on'))return;$('vSat').innerHTML=ri(91,99)+'<small>%</small>';const a=$('monA');if(a)a.textContent='prompts/h: '+ri(0,2)+' (bloqueados: '+ri(3,40)+')';},2500);
+
+/* ================= terminal ================= */
+let ti=0,halted=false;const tb=$('termBody');
+function logLine(cls,msg){const r=document.createElement('div');r.innerHTML=`<span class="t">[${new Date().toTimeString().slice(0,8)}] </span><span class="${cls}">${msg}</span>`;tb.appendChild(r);while(tb.children.length>22)tb.removeChild(tb.firstChild);}
+function stream(){if(halted)return;let l=TERM[ti%TERM.length];ti++;if(l[1].startsWith('WARN ideia'))l=['warn','WARN ideia detectada: "'+appName()+'"'];logLine(l[0],l[1]);if(l[0]==='err'){S.blocked++;$('blocked').textContent=S.blocked;}setTimeout(stream,rnd(500,1500));}
+setTimeout(stream,600);
+function panic(){if(halted)return;snd('panic');halted=true;$('term').classList.add('halt');logLine('err','^C');logLine('err','processo interrompido pelo usuário. o vício não foi.');$('panicBtn').textContent='interrompido';toast('Pânico registrado.','Respire. Feche o notebook. Não, feche de verdade. Não é "só olhar uma coisa".');}
+function resume(){if(!halted)return;halted=false;$('term').classList.remove('halt');$('panicBtn').textContent='Ctrl+C · PÂNICO';logLine('ok','processo retomado · nada mudou · era esperado');stream();}
+
+/* ================= recaída ================= */
+function confess(){
+  const n=appName();S.hist.forEach(h=>h.fresh=false);S.hist.unshift({n,t:new Date().toTimeString().slice(0,5),fresh:true});S.hist=S.hist.slice(0,8);
+  S.devnull++;S.pres=Math.max(5,S.pres-ri(8,20));S.tok+=.12;render();
+  snd('confess');$('confessBtn').classList.add('shake');setTimeout(()=>$('confessBtn').classList.remove('shake'),450);
+  logLine('warn','ideia confessada: "'+n+'" → /dev/null · certificado emitido');
+  toast('Ideia recebida: "'+n+'"','Encaminhada ao /dev/null com certificado nº '+ri(1000,9999)+'. Ninguém vai ler. Isso é a parte boa.');
+}
+const spiralAnim=document.createElement('style');spiralAnim.textContent='.spiral{animation:spin 3s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}';document.head.appendChild(spiralAnim);
+
+/* ================= commits / sponsor ================= */
+const ANS=['não.','não.','não.','ainda não.','não.','vá dormir.','não.','isso é um "sim"? não.','não.','nem em Go.'];let ai=0;
+function sponsor(){const o=$('sponsorOut');o.textContent='> pensando… (1 token)';setTimeout(()=>{const a=ANS[ai++%ANS.length];o.textContent='> '+a;snd('no');logLine('sp','sponsor: "'+a+'"');S.tok+=.4;render();bump('tok');},700);}
+
+/* ================= config ================= */
+const FEAT=[
+ ['prevenção','Bloqueador de Ideias','Substitui "faz um app que" por "vai dormir" em qualquer campo de texto.',1],
+ ['prevenção','Modo Avião Mental','Desativa a região do cérebro que pensa "isso daria um SaaS".',1],
+ ['prevenção','Bloqueio de Pricing Page','Esconde qualquer página com "Free / Pro / Enterprise". Você não vai cobrar de ninguém mesmo.',1],
+ ['prevenção','Bloqueio do 15º domínio .app','Os outros 14 já apontam para "Em breve".',1],
+ ['tratamento','Sponsor Sintético','Um Claude ajustado para responder apenas "não." Consome 1 token. Economiza 400 mil.',1],
+ ['tratamento','git blame yourself','Mostra o responsável por cada app inútil. Spoiler: é sempre você.',1],
+ ['tratamento','Cofrinho de Tokens','Cada prompt não enviado vira uma moedinha animada, que também não vale nada.',1],
+ ['tratamento','Modo Toque na Grama','GPS exige presença em área verde a cada 6h. Aceita foto de planta de escritório como fallback.',1],
+ ['redução de danos','Deploy para /dev/null','Publica seu app direto no vazio, com certificado SSL e zero usuários — como sempre, só que mais rápido.',1],
+ ['redução de danos','Recaída Assistida','Se for recair, te obriga a escrever o README antes. 94% desistem no título.',0],
+ ['redução de danos','Reunião do Grupo','Chat com outros appcoólicos. Regra única: proibido mostrar demo.',0],
+ ['redução de danos','Notificação Passivo-Agressiva','"Já são 3h. Ninguém vai usar esse app. Nem você." Não pode ser desligada.',1,true],
+ ['som','Bipes de Terminal','Sons de teclado mecânico dos anos 80 a cada clique. Desligado por padrão, porque já são 3h47 e tem gente dormindo.',0,false,'sound'],
+];
+if(!S.toggles||S.toggles.length!==FEAT.length)S.toggles=FEAT.map(f=>f[3]);
+S.toggles[FEAT.findIndex(f=>f[5]==='sound')]=S.sound?1:0;
+(function(){let html='',last='';FEAT.forEach((f,i)=>{if(f[0]!==last){html+=`<div class="sec"># ${f[0]}</div>`;last=f[0];}html+=`<div class="row"><div><div class="t">${f[1]}</div><div class="d">${f[2]}</div></div><button class="sw ${S.toggles[i]?'on':''}" data-i="${i}" aria-label="${f[1]}"></button></div>`;});$('rows').innerHTML=html;
+  document.querySelectorAll('.sw').forEach(b=>b.onclick=()=>{const i=+b.dataset.i;if(FEAT[i][4]){toast('Permissão negada.','Essa é a única funcionalidade que funciona.');return;}S.toggles[i]=S.toggles[i]?0:1;b.classList.toggle('on',!!S.toggles[i]);if(FEAT[i][5]==='sound'){S.sound=S.toggles[i];if(S.sound){ac();snd('commit');}}save();logLine(S.toggles[i]?'ok':'warn',(S.toggles[i]?'ativado: ':'desativado: ')+FEAT[i][1]+(S.toggles[i]?'':' · risco de recaída +12%'));if(!S.toggles[i]){S.pres=Math.min(99,S.pres+12);render();}});})();
+
+
+/* ================= PWA (instalável, com a logo) ================= */
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(()=>{}));
+}
+let deferredPrompt = null;
+window.addEventListener('beforeinstallprompt', e => { e.preventDefault(); deferredPrompt = e; showInstall(true); });
+window.addEventListener('appinstalled', () => { showInstall(false); toast('Instalado.','Agora o app que te cura de instalar apps está instalado no seu celular. Não vamos comentar.'); logLine('warn','app instalado · ironia registrada no prontuário'); });
+function showInstall(on){ const b=$('installRow'); if(b) b.style.display = on ? '' : 'none'; }
+async function installApp(){
+  if (!deferredPrompt) {
+    const ios = /iphone|ipad|ipod/i.test(navigator.userAgent);
+    toast(ios ? 'No iPhone é no braço.' : 'Instalação indisponível aqui.',
+      ios ? 'Toque em Compartilhar → "Adicionar à Tela de Início". O ícone é o asterisco chapado.'
+          : 'Abra no Chrome do celular (ou já está instalado). Talvez seja um sinal.');
+    return;
+  }
+  deferredPrompt.prompt();
+  const { outcome } = await deferredPrompt.userChoice;
+  deferredPrompt = null;
+  if (outcome === 'accepted') { snd('commit'); confetti(10); }
+  else { toast('Instalação recusada.','Boa. Essa é, tecnicamente, a decisão mais saudável que você tomou hoje.'); logLine('ok','instalação recusada · progresso += dignidade'); }
+}
+
+/* ================= boot ================= */
+render();
+setTimeout(()=>toast('Já são '+new Date().toTimeString().slice(0,5)+'.','Ninguém vai usar esse app. Nem você.'+(S.visits>1?' E esta é a sua visita nº '+S.visits+'.':'')),2200);
+const TITLES=['Detoken · detox de tokens para appcoólicos anônimos','volte a codar… brincadeira','dia sem codar: contando','Appcoólicos Anônimos'];let tiIdx=0;
+setInterval(()=>{if(document.hidden){tiIdx=(tiIdx+1)%TITLES.length;document.title=TITLES[tiIdx];}else document.title=TITLES[0];},4000);
+</script>
+</body>
+</html>

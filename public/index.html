@@ -181,6 +181,55 @@ h2{font-size:15px;font-weight:700;letter-spacing:-.2px}
 .danger .lbl{color:var(--red)} .danger p{font-size:11px;color:var(--dim);margin-top:4px}
 .fine{color:var(--mute);font-size:10px;margin-top:16px;line-height:1.5;text-align:center}
 
+
+/* ================= camada real ================= */
+.app:not(.real) .only-real{display:none!important}
+.app.real .only-demo{display:none!important}
+.fld{display:flex;flex-direction:column;gap:5px;margin-top:10px}
+.fld label{font-size:10px;color:var(--dim);text-transform:uppercase;letter-spacing:.07em}
+.fld input,.fld select,.fld textarea{background:#0d1014;border:1px solid var(--line2);border-radius:8px;padding:9px 10px;color:var(--fg);font-family:var(--mono);font-size:13px;width:100%}
+.fld input:focus,.fld select:focus,.fld textarea:focus{outline:none;border-color:var(--green)}
+.fld textarea{resize:vertical;min-height:62px;line-height:1.45}
+.row2{display:grid;grid-template-columns:1.6fr 1fr;gap:8px}
+.cal{display:grid;grid-template-columns:repeat(10,1fr);gap:4px;margin-top:10px}
+.cal i{aspect-ratio:1;border-radius:3px;background:#161b21;border:1px solid var(--line)}
+.cal i.ok{background:var(--green);border-color:var(--green);opacity:.9}
+.cal i.bad{background:var(--red);border-color:var(--red)}
+.cal i.hoje{box-shadow:0 0 0 2px var(--blue)}
+.list{list-style:none;margin-top:6px}
+.list li{display:flex;gap:10px;justify-content:space-between;align-items:flex-start;padding:9px 0;border-bottom:1px dashed var(--line);font-size:12px;line-height:1.4}
+.list li:last-child{border-bottom:0}
+.list li .meta2{color:var(--mute);font-size:10.5px;margin-top:2px}
+.list li button{background:none;border:0;color:var(--mute);font-size:15px;cursor:pointer;padding:0 2px;flex:none}
+.list li button:hover{color:var(--red)}
+.list .lib{color:var(--amber)}
+.empty{color:var(--mute);font-size:11.5px;padding:10px 0}
+/* pausa de 10 s */
+.pause{position:absolute;inset:0;background:rgba(7,9,11,.975);z-index:40;display:none;flex-direction:column;align-items:center;justify-content:center;padding:26px;text-align:center}
+.pause.on{display:flex}
+.breath{width:148px;height:148px;border-radius:50%;border:2px solid var(--green);display:grid;place-items:center;font-size:36px;font-weight:800;color:var(--green);font-variant-numeric:tabular-nums;animation:breathe 4s ease-in-out infinite}
+@keyframes breathe{0%,100%{transform:scale(.84);box-shadow:0 0 0 0 rgba(61,220,132,.22)}50%{transform:scale(1.06);box-shadow:0 0 0 26px rgba(61,220,132,0)}}
+.pause p{font-size:13px;color:var(--dim);max-width:290px;margin-top:20px;line-height:1.5}
+.pause .plano{color:var(--amber);font-size:12.5px;margin-top:14px}
+.pause .acts{display:none;flex-direction:column;gap:8px;margin-top:24px;width:100%;max-width:300px}
+.pause.done .acts{display:flex}
+.pause.done .breath{animation:none;border-color:var(--line2);color:var(--fg);font-size:17px;padding:0 14px}
+/* folha de registro */
+.sheet{position:absolute;inset:0;background:rgba(7,9,11,.88);z-index:35;display:none;align-items:flex-end}
+.sheet.on{display:flex}
+.sheetIn{background:var(--panel);border-top:1px solid var(--line2);border-radius:18px 18px 0 0;padding:16px 16px calc(18px + var(--sab));width:100%;max-height:82%;overflow:auto;animation:up .28s cubic-bezier(.2,.9,.2,1)}
+@keyframes up{from{transform:translateY(40px);opacity:.4}}
+.sheetIn h3{font-size:14.5px;font-weight:700}
+.sheetIn .s{font-size:11.5px;color:var(--mute);margin-top:3px;line-height:1.45}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+.opt{background:var(--panel2);border:1px solid var(--line);border-radius:9px;padding:11px 10px;font-size:12px;color:var(--fg);cursor:pointer;text-align:left;font-family:var(--mono);line-height:1.3}
+.opt:hover{border-color:var(--green);color:var(--green)}
+.sheetIn .close{background:none;border:0;color:var(--mute);font-size:12px;font-family:var(--mono);cursor:pointer;margin-top:12px;width:100%;padding:8px}
+/* marcos */
+.log li .cond{display:block;color:var(--mute);font-size:10.5px;margin-top:3px;line-height:1.35}
+.log li.ok .c{color:var(--green)}
+.mark{font-family:var(--mono);font-size:10px;border:1px solid var(--line2);color:var(--dim);border-radius:5px;padding:1px 6px;margin-left:6px;white-space:nowrap}
+
 /* toast + confetti */
 .toast{position:absolute;left:12px;right:12px;top:calc(56px + var(--sat));background:rgba(23,27,33,.97);border:1px solid var(--line2);border-radius:14px;padding:11px 13px;box-shadow:0 12px 30px rgba(0,0,0,.5);z-index:30;transform:translateY(-160%);transition:transform .45s cubic-bezier(.2,.9,.2,1)}
 .toast.show{transform:translateY(0)}
@@ -216,7 +265,7 @@ h2{font-size:15px;font-weight:700;letter-spacing:-.2px}
           <div class="lbl"><span>Progresso da cura</span><span id="pctLbl">37%</span></div>
           <div class="big"><span id="pctBig">37</span>%<small>meta: 100% (irreal)</small></div>
           <div class="bar"><div class="fill" id="fill"></div></div>
-          <div class="status-line"><span id="statusTxt">Compilando força de vontade</span><span class="dots"></span></div>
+          <div class="status-line"><span id="statusTxt">Compilando força de vontade</span><span class="dots only-demo"></span></div>
         </div>
 
         <div class="card">
@@ -230,7 +279,29 @@ h2{font-size:15px;font-weight:700;letter-spacing:-.2px}
           <div class="status-line" id="sinceNote">recorde pessoal: este. parabéns, acho.</div>
         </div>
 
-        <div class="grid">
+        <div class="card only-real">
+          <div class="lbl"><span>Agora</span><span id="realNome">—</span></div>
+          <button class="btn wide" id="btnPausa" onclick="abrirPausa()">vou usar IA agora — pausa de 10 s</button>
+          <div style="display:flex;gap:8px;margin-top:2px">
+            <button class="btn" style="flex:1;justify-content:center" onclick="abrirCheckin()">registrar sessão</button>
+            <button class="btn red" style="flex:1;justify-content:center" onclick="abrirRecaida()">recaí agora</button>
+          </div>
+        </div>
+
+        <div class="grid only-real">
+          <div class="stat"><div class="k">Dias limpos</div><div class="v g" id="rStreak">0</div><div class="n" id="rStreakN">desde a data que você marcou</div></div>
+          <div class="stat"><div class="k">Seu recorde</div><div class="v b" id="rRec">0</div><div class="n" id="rRecN">a marca a bater</div></div>
+          <div class="stat"><div class="k">Assinaturas / mês</div><div class="v a" id="rGasto">—</div><div class="n" id="rGastoN">cadastre em ~/.rehabrc</div></div>
+          <div class="stat"><div class="k">Ideias no cofre</div><div class="v p" id="rIdeias">0</div><div class="n" id="rIdeiasN">trancadas, não perdidas</div></div>
+        </div>
+
+        <div class="card only-real">
+          <div class="lbl"><span>Últimos 30 dias</span><span id="calLbl">—</span></div>
+          <div class="cal" id="cal"></div>
+          <div class="status-line" id="calNote">verde: dia sem recair · vermelho: recaída registrada</div>
+        </div>
+
+        <div class="grid only-demo">
           <div class="stat"><div class="k">Tokens economizados</div><div class="v g" id="tok">4,2M</div><div class="n">o suficiente para 1 app que ninguém usaria</div></div>
           <div class="stat"><div class="k">Horas recuperadas</div><div class="v b" id="hrs">142h</div><div class="n">devolvidas à família, que já não te reconhece</div></div>
           <div class="stat"><div class="k">Dinheiro poupado</div><div class="v a" id="brl">R$ 1.847</div><div class="n">domínios .app + VPS p/ 0 usuários + 1 mês de plano</div></div>
@@ -240,7 +311,8 @@ h2{font-size:15px;font-weight:700;letter-spacing:-.2px}
         <div class="card">
           <div class="lbl"><span>Próximo commit</span><span id="stepLbl">4 / 12</span></div>
           <div class="next"><span class="hash" id="stepHash">e4f5a6</span><p id="stepTxt">Fazer um inventário moral dos meus 14 MVPs abandonados.</p></div>
-          <button class="btn" onclick="commit()">$ git commit -m "aceito"</button>
+          <button class="btn only-demo" onclick="commit()">$ git commit -m "aceito"</button>
+          <div class="status-line only-real" id="condTxt">—</div>
         </div>
 
         <div class="keys">
@@ -251,20 +323,28 @@ h2{font-size:15px;font-weight:700;letter-spacing:-.2px}
         </div>
 
         <div class="quote" id="quote"></div>
-        <div class="fine">Você abriu esta página. Isso conta como abrir o Claude. Progresso ajustado.</div>
+        <div class="fine only-demo">Todos os números acima são ficção.<br>O <b style="color:var(--green)">Modo Real</b>, que usa os seus, fica no <b>rc</b> · <b>config</b>.</div>
+        <div class="fine only-real">Nada disto sai deste aparelho. Sem conta, sem servidor, sem ninguém olhando.<br>Gere um código de backup em ~/.rehabrc antes de trocar de celular.</div>
       </section>
 
       <!-- ============ 2. SORO ============ -->
       <section class="screen" id="s-soro">
         <div class="head"><div class="logo" id="logo-soro"></div><div><h2>Internação</h2><div class="ver">ala de desintoxicação · leito 0001 · alta prevista: nunca</div></div></div>
         <div class="scene" id="scene"></div>
-        <div class="vitals">
+        <div class="card only-real">
+          <div class="lbl"><span>Sessões de IA nesta semana</span><span id="mSem">—</span></div>
+          <div class="big"><span id="mUso">0</span><small>meta: <span id="mMeta">—</span></small></div>
+          <div class="bar"><div class="fill" id="mFill"></div></div>
+          <div class="status-line" id="mNota">defina a meta semanal no ~/.rehabrc</div>
+        </div>
+
+        <div class="vitals only-demo">
           <div class="vital"><div class="k">Vazão</div><div class="v g" id="vFlow">38<small>tok/min</small></div></div>
           <div class="vital"><div class="k">BPP</div><div class="v a" id="vBpm">112<small>bat/prompt</small></div></div>
           <div class="vital"><div class="k">Sat. ideias</div><div class="v b" id="vSat">97<small>%</small></div></div>
         </div>
-        <div class="ecg" id="ecg"><span class="bpm" id="ecgLbl">ritmo: sinusal, ansioso</span><svg viewBox="0 0 300 56" preserveAspectRatio="none"><polyline points="0,30 30,30 40,30 45,22 50,38 55,30 80,30 90,30 95,8 100,52 105,30 130,30 140,30 145,22 150,38 155,30 180,30 190,30 195,8 200,52 205,30 230,30 240,30 245,22 250,38 255,30 300,30"/></svg></div>
-        <div class="card">
+        <div class="ecg only-demo" id="ecg"><span class="bpm" id="ecgLbl">ritmo: sinusal, ansioso</span><svg viewBox="0 0 300 56" preserveAspectRatio="none"><polyline points="0,30 30,30 40,30 45,22 50,38 55,30 80,30 90,30 95,8 100,52 105,30 130,30 140,30 145,22 150,38 155,30 180,30 190,30 195,8 200,52 205,30 230,30 240,30 245,22 250,38 255,30 300,30"/></svg></div>
+        <div class="card only-demo">
           <div class="lbl"><span>Prescrição</span><span id="rxId">RX-2026-0347</span></div>
           <p style="font-size:12px;margin-top:6px;color:var(--dim)" id="rxTxt">Soro de tokens em dose decrescente. Zero prompts por via oral. Contato com grama 2x ao dia.</p>
           <div style="display:flex;gap:8px">
@@ -293,7 +373,7 @@ h2{font-size:15px;font-weight:700;letter-spacing:-.2px}
       <!-- ============ 4. RECAÍDA ============ -->
       <section class="screen" id="s-recaida">
         <div class="head"><div class="logo" id="logo-recaida"></div><div><h2>Overdose de prompt</h2><div class="ver">monitor de recaída · sensibilidade: máxima</div></div></div>
-        <div class="card">
+        <div class="card only-demo">
           <div class="lbl"><span>Próxima recaída prevista em</span><span class="r">● ao vivo</span></div>
           <div class="timer">
             <div class="seg"><b id="cH">00</b><span>horas</span></div>
@@ -302,17 +382,25 @@ h2{font-size:15px;font-weight:700;letter-spacing:-.2px}
           </div>
           <div class="status-line" id="cdNote">estimativa baseada no seu histórico. o seu histórico é ruim.</div>
         </div>
-        <div class="card">
+        <div class="card only-demo">
           <div class="lbl"><span>Pressão de ideias</span><span id="presLbl">41 kPa</span></div>
           <div class="gauge"><i id="pres"></i></div>
           <div class="status-line" id="presNote">zona segura até 60. acima disso você abre o terminal "só pra ver".</div>
         </div>
-        <div class="card">
+        <div class="card only-real">
+          <div class="lbl"><span>Cofre de ideias</span><span id="cofreN">0</span></div>
+          <p style="font-size:11.5px;color:var(--mute);margin-top:6px;line-height:1.5">A ideia não é jogada fora: fica trancada por 30 dias. Quando o prazo vence, o app pergunta se ela ainda faz sentido. Quase nunca faz.</p>
+          <button class="btn wide" onclick="abrirIdeia()">+ confessar uma ideia</button>
+          <ul class="list" id="cofre"></ul>
+        </div>
+
+        <div class="card only-demo">
           <div class="lbl"><span>Ideias confessadas → /dev/null</span><span id="devnull">3</span></div>
           <ul class="hist" id="hist"></ul>
           <button class="btn wide" id="confessBtn" onclick="confess()">confessar uma ideia agora</button>
         </div>
-        <div class="fine">Cada ideia confessada é encaminhada ao /dev/null com certificado. Nenhuma foi lida. Nenhuma será.</div>
+        <div class="fine only-demo">Cada ideia confessada é encaminhada ao /dev/null com certificado. Nenhuma foi lida. Nenhuma será.</div>
+        <div class="fine only-real">Trinta dias é o prazo em que quase toda ideia perde a urgência. As que sobrevivem a isso costumam ser as que valiam a pena.</div>
       </section>
 
       <!-- ============ 5. COMMITS ============ -->
@@ -331,6 +419,43 @@ h2{font-size:15px;font-weight:700;letter-spacing:-.2px}
       <!-- ============ 6. CONFIG ============ -->
       <section class="screen" id="s-config">
         <div class="head"><div class="logo" id="logo-config"></div><div><h2>Funcionalidades</h2><div class="ver">~/.rehabrc · todas testadas em produção. nenhuma testada.</div></div></div>
+        <div class="card" id="realCard">
+          <div class="lbl"><span>Modo Real</span><span id="realState">desligado</span></div>
+          <p style="font-size:11.5px;color:var(--mute);margin-top:6px;line-height:1.5">Liga a camada séria: os números fictícios saem e entram os seus. Nada sai deste aparelho — não há servidor, não há conta, não há ninguém olhando.</p>
+          <button class="btn wide" id="btnReal" onclick="toggleReal()">ligar o Modo Real</button>
+        </div>
+
+        <div class="only-real">
+          <div class="sec"># perfil</div>
+          <div class="fld"><label>como te chamar</label><input id="fNome" type="text" placeholder="Odin" maxlength="24"></div>
+          <div class="fld"><label>estou sem codar desde</label><input id="fInicio" type="date"></div>
+          <div class="fld"><label>quanto vale uma hora sua (R$) — opcional</label><input id="fHora" type="number" min="0" step="10" placeholder="120"></div>
+          <button class="btn" onclick="salvarPerfil()">salvar perfil</button>
+
+          <div class="sec"># meta de redução</div>
+          <div class="fld"><label>teto de sessões de IA por semana</label><input id="fMeta" type="number" min="0" step="1" placeholder="10"></div>
+          <div class="fld"><label>plano se-então (aparece na pausa de 10 s)</label><textarea id="fPlano" maxlength="180" placeholder="Quando eu quiser abrir a IA depois das 22h, eu vou fechar o notebook e ler uma página."></textarea></div>
+          <button class="btn" onclick="salvarMeta()">salvar meta e plano</button>
+
+          <div class="sec"># assinaturas de IA</div>
+          <div class="row2">
+            <div class="fld"><label>nome</label><input id="fAsN" type="text" placeholder="Claude Max"></div>
+            <div class="fld"><label>R$ / mês</label><input id="fAsV" type="number" min="0" step="1" placeholder="600"></div>
+          </div>
+          <button class="btn" onclick="addAssinatura()">+ adicionar assinatura</button>
+          <ul class="list" id="assinaturas"></ul>
+          <div class="status-line" id="gastoNota">—</div>
+
+          <div class="sec"># seus dados</div>
+          <div class="status-line" id="resumoDados">—</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <button class="btn" onclick="exportar()">gerar código de backup</button>
+            <button class="btn" onclick="abrirImportar()">restaurar de um código</button>
+            <button class="btn" onclick="compartilharStreak()">contar para alguém</button>
+          </div>
+          <div class="fld" id="bkWrap" style="display:none"><label>copie e guarde este código</label><textarea id="bkTxt" readonly></textarea></div>
+        </div>
+
         <div id="rows"></div>
         <div class="card" id="installRow" style="display:none">
           <div class="lbl"><span>Instalar no celular</span><span class="g">● disponível</span></div>
@@ -347,6 +472,18 @@ h2{font-size:15px;font-weight:700;letter-spacing:-.2px}
       </section>
 
     </div>
+
+    <div class="pause" id="pause">
+      <div class="breath" id="breathN">10</div>
+      <p id="pauseTxt">Respire. Em dez segundos você decide de novo — e dessa vez com o córtex ligado.</p>
+      <p class="plano" id="pausePlano"></p>
+      <div class="acts">
+        <button class="btn wide" onclick="pausaDesisti()">mudei de ideia</button>
+        <button class="btn wide" onclick="pausaSegui()">vou usar mesmo assim</button>
+      </div>
+    </div>
+
+    <div class="sheet" id="sheet"><div class="sheetIn" id="sheetIn"></div></div>
 
     <nav class="tabbar" id="tabs">
       <button class="tab on" data-s="home"><b>~/</b>home</button>
@@ -503,6 +640,7 @@ function render(){
   $('devnull').textContent=S.devnull;$('blocked').textContent=S.blocked;
   $('vFlow').innerHTML=S.flow+'<small>tok/min</small>';
   $('pres').style.width=S.pres+'%';$('presLbl').textContent=S.pres+' kPa';
+  if(R&&R.on) renderReal();
   $('hist').innerHTML=S.hist.slice(0,6).map((h,i)=>`<li class="${i===0&&h.fresh?'new':''}"><span>${h.n}</span><span>→ /dev/null · ${h.t}</span></li>`).join('')||'<li><span style="color:var(--mute)">nenhuma ideia confessada ainda. suspeito.</span><span></span></li>';
   save();
 }
@@ -522,27 +660,32 @@ function relapse(){
   toast('Recaída detectada.','Progresso: 0%. Culpa: sua. Novo app em andamento: "Recaída Tracker Pro". Nós avisamos.');
 }
 const KEYS={ctrlc:['Ctrl+C recebido.','Processo "ideia brilhante" finalizado. Ela não era brilhante.'],q:[':q!','Saiu sem salvar a ideia. Ninguém sentirá falta.'],stash:['git stash','Ideia guardada com as outras 213. Nunca mais será vista.'],sudo:['sudo: permissão negada','Sua esposa respondeu: "de novo?"']};
-function key(k){snd('tap');toast(...KEYS[k]);S.tok+=.01;render();bump('tok');}
+function key(k){ if(R.on&&k==='ctrlc'){abrirPausa();return;} snd('tap');toast(...KEYS[k]);S.tok+=.01;render();bump('tok');}
 
 /* status rotativo + frases */
 let qi=ri(0,QUOTES.length-1),si=0;
 function rotQuote(){const q=$('quote');q.classList.add('fade');setTimeout(()=>{qi=(qi+1)%QUOTES.length;q.textContent='“'+QUOTES[qi]+'”';q.classList.remove('fade');},300);}
 $('quote').textContent='“'+QUOTES[qi]+'”';setInterval(rotQuote,7000);
-setInterval(()=>{si=(si+1)%STATUS.length;$('statusTxt').textContent=STATUS[si];},4200);
+setInterval(()=>{if(typeof R!=='undefined'&&R.on)return;si=(si+1)%STATUS.length;$('statusTxt').textContent=STATUS[si];},4200);
 
 /* números vivos */
 setInterval(()=>{
   const r=Math.random();
   if(r<.4){S.tok+=rnd(.01,.06);bump('tok');}else if(r<.7){S.brl+=ri(1,17);bump('brl');}else if(r<.9){S.hrs+=rnd(.1,.6);bump('hrs');}
-  else{S.pct=Math.max(1,Math.min(100,S.pct+rnd(-.6,.9)));}
+  else if(!(typeof R!=='undefined'&&R.on)){S.pct=Math.max(1,Math.min(100,S.pct+rnd(-.6,.9)));}
   S.pres=Math.max(5,Math.min(99,S.pres+ri(-2,3)));
   render();
 },3500);
 
 /* tempo sem codar */
 function tick(){
-  const d=Math.max(0,now()-S.start),dd=Math.floor(d/864e5),h=Math.floor(d/36e5)%24,m=Math.floor(d/6e4)%60,s=Math.floor(d/1e3)%60;
+  const origem = (typeof R!=='undefined'&&R.on) ? (R.recaidas.length?Math.max(R.inicio||0,R.recaidas[0].t):(R.inicio||S.start)) : S.start;
+  const d=Math.max(0,now()-origem),dd=Math.floor(d/864e5),h=Math.floor(d/36e5)%24,m=Math.floor(d/6e4)%60,s=Math.floor(d/1e3)%60;
   $('tD').textContent=dd;$('tH').textContent=String(h).padStart(2,'0');$('tM').textContent=String(m).padStart(2,'0');$('tS').textContent=String(s).padStart(2,'0');
+  if(typeof R!=='undefined'&&R.on){
+    $('sinceNote').textContent = R.recaidas.length? 'desde a última recaída, em '+new Date(R.recaidas[0].t).toLocaleDateString('pt-BR')+'. recorde: '+R.recorde+' dias.'
+      : R.inicio? 'contando sem interrupção. recorde: '+R.recorde+' dias.' : 'defina a data de início em ~/.rehabrc.';
+  } else
   $('sinceNote').textContent=dd===0&&h===0?'recorde pessoal: este. parabéns, acho.':dd===0?'já é mais do que a última tentativa.':dd<3?'dia '+dd+'. "é diferente dessa vez", você diz.':'dia '+dd+'. ninguém acreditava. nós ainda não acreditamos.';
   // countdown recaída
   let left=S.nextRelapse-now();
@@ -676,7 +819,324 @@ async function installApp(){
   else { toast('Instalação recusada.','Boa. Essa é, tecnicamente, a decisão mais saudável que você tomou hoje.'); logLine('ok','instalação recusada · progresso += dignidade'); }
 }
 
+
+/* ================= CAMADA REAL ================= */
+const RKEY='detoken_real_v1';
+const DIA=864e5;
+var R=Object.assign({
+  on:false, nome:'', inicio:null, recorde:0, recaidas:[], ideias:[], assinaturas:[],
+  valorHora:0, sessoes:[], pausas:{total:0,desistiu:0}, substituicoes:[], meta:null,
+  plano:'', contou:false, eventos:[], marcos:{}
+}, JSON.parse(localStorage.getItem(RKEY)||'{}'));
+const rsave=()=>{try{localStorage.setItem(RKEY,JSON.stringify(R))}catch(e){}};
+const dia0=t=>{const d=new Date(t);d.setHours(0,0,0,0);return d.getTime()};
+const hoje0=()=>dia0(Date.now());
+const brl=v=>'R$ '+(Math.round(v)).toLocaleString('pt-BR');
+const dataBR=t=>new Date(t).toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit'});
+
+function ev(txt,cls){
+  R.eventos.unshift({t:Date.now(),txt,cls:cls||'ok'});
+  R.eventos=R.eventos.slice(0,60); rsave();
+  if(R.on) logLine(cls||'ok', txt);
+}
+/* --- cálculos --- */
+function streak(){
+  if(!R.inicio) return 0;
+  const base=R.recaidas.length?Math.max(R.inicio,dia0(R.recaidas[0].t)):R.inicio;
+  return Math.max(0,Math.floor((hoje0()-dia0(base))/DIA));
+}
+function gastoMes(){ return R.assinaturas.reduce((a,x)=>a+(+x.valor||0),0); }
+function noCofre(){ return R.ideias.filter(i=>i.status==='cofre').length; }
+function liberadas(){ return R.ideias.filter(i=>i.status==='cofre'&&Date.now()>=i.libera); }
+function diasComRegistro(){
+  const set=new Set();
+  R.sessoes.forEach(x=>set.add(dia0(x.t)));
+  R.substituicoes.forEach(x=>set.add(dia0(x.t)));
+  R.recaidas.forEach(x=>set.add(dia0(x.t)));
+  R.ideias.forEach(x=>set.add(dia0(x.t)));
+  return set.size;
+}
+function sessoesSemana(){
+  const ini=hoje0()-((new Date().getDay()+6)%7)*DIA;
+  return R.sessoes.filter(x=>x.t>=ini).length;
+}
+/* --- os 12 marcos, com condição verificável --- */
+const MARCOS=[
+  {c:()=>R.sessoes.length>=1, d:'registre a primeira sessão de IA com o gatilho'},
+  {c:()=>R.meta>0,            d:'defina um teto de sessões por semana'},
+  {c:()=>R.ideias.length>=1,  d:'tranque a primeira ideia no cofre'},
+  {c:()=>R.assinaturas.length>=1, d:'cadastre suas assinaturas e veja o custo real'},
+  {c:()=>R.pausas.desistiu>=3, d:'desista 3 vezes na pausa de 10 s'},
+  {c:()=>diasComRegistro()>=7, d:'7 dias diferentes com algum registro'},
+  {c:()=>(R.plano||'').length>=15, d:'escreva seu plano se-então'},
+  {c:()=>R.contou===true,     d:'conte para uma pessoa (botão em ~/.rehabrc)'},
+  {c:()=>R.meta>0&&sessoesSemana()<=R.meta&&diasComRegistro()>=7, d:'cumpra a meta por uma semana inteira'},
+  {c:()=>diasComRegistro()>=14, d:'14 dias diferentes com registro'},
+  {c:()=>R.substituicoes.length>=5, d:'5 substituições registradas na pausa'},
+  {c:()=>streak()>=30,        d:'30 dias limpos'}
+];
+function marcosFeitos(){ let n=0; for(let i=0;i<12;i++){ if(MARCOS[i].c()){ if(!R.marcos[i]){R.marcos[i]=Date.now(); ev('marco '+(i+1)+'/12 concluído: '+STEPS[i].slice(0,46)+'…','sp'); confetti(8); snd('commit');} n++; } } return n; }
+function proxMarco(){ for(let i=0;i<12;i++) if(!MARCOS[i].c()) return i; return 11; }
+
+/* --- render da camada real --- */
+function renderReal(){
+  $('app').classList.toggle('real', !!R.on);
+  $('realState').textContent = R.on?'ligado':'desligado';
+  $('btnReal').textContent = R.on?'voltar para o modo demonstração':'ligar o Modo Real';
+  if(!R.on) return;
+
+  const st=streak();
+  if(st>R.recorde) R.recorde=st;
+  const feitos=marcosFeitos();
+  const pctReal=Math.round(feitos/12*100);
+
+  $('realNome').textContent = R.nome? R.nome.toLowerCase() : 'sem nome';
+  $('rStreak').textContent = st;
+  $('rStreakN').textContent = !R.inicio ? 'defina a data de início em ~/.rehabrc'
+    : st===0 ? 'hoje é o dia 1. começa agora.' : st<3 ? 'ainda frágil. é normal.'
+    : st<8 ? 'já dá para chamar de sequência.' : 'isso já é um hábito começando.';
+  $('rRec').textContent = R.recorde;
+  $('rRecN').textContent = st>0&&st>=R.recorde ? 'você está no seu recorde agora' : 'a marca a bater';
+  const g=gastoMes();
+  $('rGasto').textContent = g? brl(g) : '—';
+  $('rGastoN').textContent = g? brl(g/30)+' por dia' + (R.valorHora? ' · '+(g/R.valorHora).toFixed(1)+' h do seu trabalho por mês':'') : 'cadastre em ~/.rehabrc';
+  $('rIdeias').textContent = noCofre();
+  const lib=liberadas().length;
+  $('rIdeiasN').textContent = lib? lib+' já venceu o prazo — decida na aba recaída' : 'trancadas, não perdidas';
+
+  /* barra de cura = marcos reais */
+  $('fill').style.width=pctReal+'%';
+  $('fill').classList.toggle('danger',pctReal<10);
+  $('pctLbl').textContent=pctReal+'%'; $('pctBig').textContent=pctReal;
+  $('statusTxt').textContent = feitos+' de 12 marcos concluídos';
+  $('sinceLbl').textContent = R.inicio? 'desde '+new Date(R.inicio).toLocaleDateString('pt-BR') : 'defina a data';
+
+  /* próximo marco */
+  const pm=proxMarco();
+  $('stepLbl').textContent=(pm+1)+' / 12';
+  $('stepHash').textContent=HASH[pm];
+  $('stepTxt').textContent=STEPS[pm];
+  $('condTxt').textContent='para destravar: '+MARCOS[pm].d;
+
+  /* lista dos 12 com condição */
+  $('steps').innerHTML=STEPS.map((t,i)=>{
+    const ok=MARCOS[i].c();
+    return `<li class="${ok?'ok':(i===pm?'wip':'todo')}"><span class="h">${HASH[i]}</span><span class="c">${ok?'✓':(i===pm?'●':'○')}</span><span class="m">${t}<span class="cond">${ok?'concluído':MARCOS[i].d}</span></span></li>`;
+  }).join('');
+
+  /* calendário */
+  const cal=$('cal'); let html='';
+  const ini=R.inicio||hoje0();
+  const recDias=new Set(R.recaidas.map(r=>dia0(r.t)));
+  for(let i=29;i>=0;i--){
+    const d=hoje0()-i*DIA;
+    let c = d<dia0(ini) ? '' : recDias.has(d) ? 'bad' : 'ok';
+    if(d===hoje0()) c+=' hoje';
+    html+=`<i class="${c}" title="${dataBR(d)}"></i>`;
+  }
+  cal.innerHTML=html;
+  $('calLbl').textContent = R.recaidas.length? R.recaidas.length+(R.recaidas.length===1?' recaída':' recaídas') : 'nenhuma recaída';
+
+  /* meta semanal */
+  const us=sessoesSemana(), mt=R.meta||0;
+  $('mUso').textContent=us; $('mMeta').textContent=mt?mt+' por semana':'—';
+  $('mSem').textContent=mt? (us<=mt?'dentro da meta':'acima da meta') : 'sem meta';
+  $('mFill').style.width=mt?Math.min(100,us/mt*100)+'%':'0%';
+  $('mFill').classList.toggle('danger', mt>0&&us>mt);
+  $('mNota').textContent = !mt? 'defina a meta semanal no ~/.rehabrc'
+    : us>mt? 'você passou do teto. isso é dado, não fracasso — anote o gatilho.'
+    : 'faltam '+(mt-us)+' sessões até o teto desta semana.';
+
+  /* cofre */
+  const cofre=$('cofre');
+  const its=R.ideias.filter(i=>i.status==='cofre');
+  $('cofreN').textContent=its.length;
+  cofre.innerHTML = its.length? its.map((i,n)=>{
+    const venceu=Date.now()>=i.libera;
+    const faltam=Math.ceil((i.libera-Date.now())/DIA);
+    return `<li><div><div>${i.texto.replace(/</g,'&lt;')}</div><div class="meta2 ${venceu?'lib':''}">${venceu?'prazo vencido — ainda faz sentido?':'libera em '+faltam+' dia'+(faltam>1?'s':'')} · trancada em ${dataBR(i.t)}</div></div>${venceu?`<button onclick="decidirIdeia(${i.id})" title="decidir">↻</button>`:''}</li>`;
+  }).join('') : '<li class="empty">nenhuma ideia trancada ainda. suspeito.</li>';
+
+  /* assinaturas */
+  const as=$('assinaturas');
+  as.innerHTML = R.assinaturas.length? R.assinaturas.map((a,i)=>
+    `<li><div><div>${a.nome.replace(/</g,'&lt;')}</div><div class="meta2">${brl(a.valor)}/mês · ${brl(a.valor*12)}/ano</div></div><button onclick="delAssinatura(${i})" title="remover">×</button></li>`).join('')
+    : '<li class="empty">nenhuma assinatura cadastrada.</li>';
+  $('gastoNota').textContent = g? 'total: '+brl(g)+' por mês · '+brl(g*12)+' por ano'+(R.valorHora?' · '+(g*12/R.valorHora).toFixed(0)+' horas do seu trabalho por ano':'') : 'sem assinaturas cadastradas.';
+  $('resumoDados').textContent = R.sessoes.length+' sessões · '+R.pausas.total+' pausas ('+R.pausas.desistiu+' desistências) · '+R.ideias.length+' ideias · '+R.recaidas.length+' recaídas · tudo só neste navegador.';
+
+  /* campos */
+  if(document.activeElement!==$('fNome')) $('fNome').value=R.nome||'';
+  if(R.inicio&&document.activeElement!==$('fInicio')) $('fInicio').value=new Date(R.inicio).toISOString().slice(0,10);
+  if(document.activeElement!==$('fHora')) $('fHora').value=R.valorHora||'';
+  if(document.activeElement!==$('fMeta')) $('fMeta').value=R.meta||'';
+  if(document.activeElement!==$('fPlano')) $('fPlano').value=R.plano||'';
+  rsave();
+}
+
+function toggleReal(){
+  R.on=!R.on;
+  if(R.on&&!R.inicio){ R.inicio=hoje0(); }
+  rsave(); renderReal(); render();
+  if(R.on){
+    halted=true;
+    tb.innerHTML=''; R.eventos.slice().reverse().forEach(e=>logLine(e.cls,e.txt));
+    if(!R.eventos.length) logLine('ok','modo real ligado · a partir de agora os números são seus');
+    toast('Modo Real ligado.','Os números fictícios saíram. Agora só entra o que você registrar. Comece pela data de início, ali embaixo.');
+  } else {
+    halted=false; stream();
+    toast('De volta ao teatro.','Seus dados continuam salvos. Voltamos a mentir bonito para você.');
+  }
+}
+
+/* --- perfil, meta, assinaturas --- */
+function salvarPerfil(){
+  R.nome=$('fNome').value.trim().slice(0,24);
+  const d=$('fInicio').value; if(d){ const [y,m,dd]=d.split('-').map(Number); R.inicio=new Date(y,m-1,dd).getTime(); }
+  R.valorHora=+$('fHora').value||0;
+  ev('perfil atualizado'); renderReal();
+  toast('Perfil salvo.', R.inicio? 'Contando desde '+new Date(R.inicio).toLocaleDateString('pt-BR')+'. Sem zerar mais sozinho.' : 'Falta a data de início.');
+}
+function salvarMeta(){
+  R.meta=+$('fMeta').value||0; R.plano=$('fPlano').value.trim().slice(0,180);
+  ev('meta e plano atualizados'); renderReal();
+  toast('Anotado.', R.meta? 'Teto de '+R.meta+' sessões por semana. Na próxima semana a gente tenta '+Math.max(1,Math.round(R.meta*0.9))+'.' : 'Sem teto definido ainda.');
+}
+function addAssinatura(){
+  const n=$('fAsN').value.trim(), v=+$('fAsV').value||0;
+  if(!n||!v){ toast('Faltou preencher.','Nome e valor mensal. É só isso.'); return; }
+  R.assinaturas.push({nome:n.slice(0,28),valor:v});
+  $('fAsN').value=''; $('fAsV').value='';
+  ev('assinatura cadastrada: '+n+' ('+brl(v)+'/mês)','warn'); renderReal();
+  const g=gastoMes();
+  toast('Cadastrada.', 'Você gasta '+brl(g)+' por mês com IA — '+brl(g*12)+' por ano.');
+}
+function delAssinatura(i){ const a=R.assinaturas[i]; R.assinaturas.splice(i,1); ev('assinatura removida: '+(a?a.nome:''),'ok'); renderReal(); }
+
+/* --- folha de registro --- */
+function fecharSheet(){ $('sheet').classList.remove('on'); }
+function sheet(html){ $('sheetIn').innerHTML=html+'<button class="close" onclick="fecharSheet()">fechar</button>'; $('sheet').classList.add('on'); }
+
+const GATILHOS=['tédio','ansiedade','fugir de uma tarefa chata','ideia nova','prazo apertado','só queria dar uma olhada','madrugada','trabalho de verdade'];
+function abrirCheckin(){
+  sheet('<h3>Você usou IA. O que veio antes?</h3><p class="s">Só isso. Sem julgamento — nomear a pista é o que permite trocar a resposta depois.</p><div class="opts">'
+    + GATILHOS.map(g=>`<button class="opt" onclick="registrarSessao('${g}')">${g}</button>`).join('') + '</div>');
+}
+function registrarSessao(g){
+  R.sessoes.push({t:Date.now(),gatilho:g});
+  ev('sessão registrada · gatilho: '+g,'warn'); fecharSheet(); renderReal(); snd('tap');
+  const us=sessoesSemana();
+  toast('Registrado.', R.meta? us+' de '+R.meta+' sessões nesta semana. Gatilho mais comum até agora: '+gatilhoTop()+'.' : 'Gatilho anotado: '+g+'. Defina uma meta semanal para isso virar número.');
+}
+function gatilhoTop(){
+  const c={}; R.sessoes.forEach(s=>c[s.gatilho]=(c[s.gatilho]||0)+1);
+  const e=Object.entries(c).sort((a,b)=>b[1]-a[1])[0]; return e?e[0]:'—';
+}
+function abrirIdeia(){
+  sheet('<h3>Confesse a ideia</h3><p class="s">Escreva do jeito que ela apareceu na sua cabeça. Ela fica trancada 30 dias — não é descarte, é adiamento.</p>'
+    + '<div class="fld"><textarea id="ideiaTxt" maxlength="160" placeholder="um app que..."></textarea></div>'
+    + '<button class="btn wide" onclick="salvarIdeia()">trancar por 30 dias</button>');
+  setTimeout(()=>{const el=$('ideiaTxt'); if(el) el.focus();},80);
+}
+function salvarIdeia(){
+  const t=($('ideiaTxt').value||'').trim();
+  if(t.length<3){ toast('Escreva alguma coisa.','Nem que seja "não lembro mais". Isso também é dado.'); return; }
+  R.ideias.push({id:Date.now(),t:Date.now(),texto:t.slice(0,160),libera:Date.now()+30*DIA,status:'cofre'});
+  ev('ideia trancada no cofre: "'+t.slice(0,40)+'"','sp'); fecharSheet(); renderReal(); snd('confess'); confetti(8);
+  toast('Trancada.','Volta a aparecer em 30 dias. Se ainda fizer sentido lá, você faz — com a cabeça de quem dormiu.');
+}
+function decidirIdeia(id){
+  const i=R.ideias.find(x=>x.id===id); if(!i) return;
+  sheet('<h3>Passaram 30 dias</h3><p class="s">"'+i.texto.replace(/</g,'&lt;')+'"</p><div class="opts">'
+    + `<button class="opt" onclick="resolverIdeia(${id},'descartada')">não faz mais sentido</button>`
+    + `<button class="opt" onclick="resolverIdeia(${id},'renovada')">tranca por mais 30 dias</button>`
+    + `<button class="opt" onclick="resolverIdeia(${id},'feita')">vou fazer, com calma</button></div>`);
+}
+function resolverIdeia(id,st){
+  const i=R.ideias.find(x=>x.id===id); if(!i) return;
+  if(st==='renovada'){ i.libera=Date.now()+30*DIA; ev('ideia renovada por mais 30 dias'); }
+  else { i.status=st; ev('ideia '+st+': "'+i.texto.slice(0,40)+'"', st==='descartada'?'ok':'warn'); }
+  fecharSheet(); renderReal();
+  toast(st==='descartada'?'Descartada.':st==='feita'?'Liberada.':'Renovada.',
+    st==='descartada'?'Trinta dias depois, quase nenhuma sobrevive. Era esse o teste.':st==='feita'?'Se ela sobreviveu a 30 dias, provavelmente merece existir.':'Mais 30 dias. Sem pressa.');
+}
+const SUBS=['caminhei','dormi','escrevi no papel','falei com alguém','fiz outra coisa da lista','só esperei passar'];
+function abrirRecaida(){
+  sheet('<h3>Registrar recaída</h3><p class="s">Sem sermão. Um deslize registrado vale mais que um deslize escondido — o que faz a pessoa desistir é achar que já perdeu tudo.</p><div class="opts">'
+    + GATILHOS.map(g=>`<button class="opt" onclick="confirmarRecaida('${g}')">${g}</button>`).join('')+'</div>');
+}
+function confirmarRecaida(motivo){
+  const st=streak(); if(st>R.recorde) R.recorde=st;
+  R.recaidas.unshift({t:Date.now(),motivo});
+  ev('recaída registrada · motivo: '+motivo+' · streak anterior: '+st+' dias','err');
+  fecharSheet(); renderReal(); snd('relapse');
+  toast('Registrado.','Streak zerado, recorde de '+R.recorde+' dias guardado. Amanhã é dia 1 de novo — e o dia 1 você já sabe fazer.');
+}
+
+/* --- pausa de 10 s --- */
+let pausaTimer=null;
+function abrirPausa(){
+  const el=$('pause'); el.classList.add('on'); el.classList.remove('done');
+  $('pausePlano').textContent=R.plano? '“'+R.plano+'”' : '';
+  R.pausas.total++; rsave();
+  let n=10; $('breathN').textContent=n; snd('tap');
+  clearInterval(pausaTimer);
+  pausaTimer=setInterval(()=>{
+    n--; $('breathN').textContent=n>0?n:'e agora?';
+    if(n<=0){ clearInterval(pausaTimer); el.classList.add('done'); $('pauseTxt').textContent='A vontade já mudou de tamanho nesses dez segundos. Ainda quer?'; }
+  },1000);
+}
+function pausaSegui(){
+  $('pause').classList.remove('on'); clearInterval(pausaTimer);
+  ev('pausa concluída · seguiu em frente','warn'); renderReal();
+  abrirCheckin();
+}
+function pausaDesisti(){
+  $('pause').classList.remove('on'); clearInterval(pausaTimer);
+  R.pausas.desistiu++; rsave();
+  ev('pausa concluída · desistiu de usar','ok'); snd('commit'); confetti(10);
+  sheet('<h3>Você desistiu. O que fez em vez disso?</h3><p class="s">A pista continua existindo. O que muda é a resposta — e o app aprende quais funcionam para você.</p><div class="opts">'
+    + SUBS.map(x=>`<button class="opt" onclick="registrarSub('${x}')">${x}</button>`).join('')+'</div>');
+}
+function registrarSub(x){
+  R.substituicoes.push({t:Date.now(),o:x});
+  ev('substituição: '+x,'ok'); fecharSheet(); renderReal();
+  toast('Boa.', R.pausas.desistiu+' desistências até agora. A pausa de 10 segundos é o mecanismo mais estudado que existe nisso — e você acabou de usá-lo.');
+}
+
+/* --- backup e compartilhar --- */
+function exportar(){
+  try{
+    const code=btoa(unescape(encodeURIComponent(JSON.stringify(R))));
+    $('bkWrap').style.display=''; $('bkTxt').value=code; $('bkTxt').select();
+    toast('Código gerado.','Copie e guarde. É o seu histórico inteiro — sem servidor, sem conta, sem ninguém no meio.');
+  }catch(e){ toast('Não deu.','O navegador recusou gerar o código.'); }
+}
+function abrirImportar(){
+  sheet('<h3>Restaurar de um código</h3><p class="s">Cole aqui o código gerado no outro aparelho. Isso substitui os dados deste navegador.</p>'
+    +'<div class="fld"><textarea id="impTxt" placeholder="cole aqui"></textarea></div>'
+    +'<button class="btn wide" onclick="importar()">restaurar</button>');
+}
+function importar(){
+  try{
+    const o=JSON.parse(decodeURIComponent(escape(atob(($('impTxt').value||'').trim()))));
+    if(!o||typeof o!=='object') throw 0;
+    R=Object.assign(R,o); R.on=true; rsave(); fecharSheet(); renderReal(); render();
+    toast('Restaurado.','Streak, cofre e assinaturas voltaram. Bem-vindo de volta.');
+  }catch(e){ toast('Código inválido.','Confira se copiou o texto inteiro, sem espaço sobrando.'); }
+}
+function compartilharStreak(){
+  const st=streak();
+  const txt='estou há '+st+' dia'+(st===1?'':'s')+' sem criar app com IA. quem quiser se juntar ao programa: https://detoken.bitbeagle.com';
+  R.contou=true; ev('contou para alguém'); renderReal();
+  if(navigator.share){ navigator.share({text:txt}).catch(()=>{}); }
+  else if(navigator.clipboard){ navigator.clipboard.writeText(txt).then(()=>toast('Copiado.','Cole no grupo. Compromisso público é um dos reforços mais fortes que existem — e o mais barato.')).catch(()=>{}); }
+  else toast('Conte assim:',txt);
+}
+
 /* ================= boot ================= */
+renderReal();
+if(R.on){halted=true;tb.innerHTML='';R.eventos.slice().reverse().forEach(e=>logLine(e.cls,e.txt));}
 render();
 setTimeout(()=>toast('Já são '+new Date().toTimeString().slice(0,5)+'.','Ninguém vai usar esse app. Nem você.'+(S.visits>1?' E esta é a sua visita nº '+S.visits+'.':'')),2200);
 const TITLES=['Detoken · detox de tokens para appcoólicos anônimos','volte a codar… brincadeira','dia sem codar: contando','Appcoólicos Anônimos'];let tiIdx=0;

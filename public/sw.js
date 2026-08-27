@@ -1,7 +1,7 @@
 /* Detoken · Appcoólicos Anônimos — service worker
    Guarda o app no seu celular para funcionar offline.
    Ironia registrada: é o único processo em background que te ajuda a não programar. */
-const CACHE = 'detoken-v1';
+const CACHE = 'detoken-v2';
 const SHELL = [
   './', './index.html', './manifest.webmanifest',
   './favicon.svg', './favicon.png', './apple-touch-icon.png',

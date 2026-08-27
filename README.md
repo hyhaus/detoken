@@ -37,13 +37,24 @@ public/      ← é exatamente o conteúdo do public_html no servidor
   .htaccess robots.txt sitemap.xml
 
 docs/
-  prompt-claude-code.md     prompts prontos para trabalhar no projeto pelo Claude Code
+  prompt-claude-code.md     como abrir o projeto no Claude Code (comece por aqui)
+  prompt-claude-code-fases.md   os prompts de cada fase do roadmap
+  prompt-cowork-proximos-passos.md   prompt para o Cowork guiar os próximos passos
   prompt-v2-original.md     o prompt que gerou este site
   deploy-hostinger.md       passo a passo de publicação
   logos-5-opcoes.html       as 5 opções de logo do mascote
   preview-whatsapp.html     simulador do preview de link no WhatsApp
   og-alternativa.png        versão alternativa da imagem de preview
 ```
+
+## Pegar o projeto
+
+```bash
+git clone https://github.com/hyhaus/detoken.git
+cd detoken
+```
+
+Repositório público — não precisa de token nem de `gh`. Não reconstrua a pasta baixando do site no ar: o `CLAUDE.md` e o histórico não estão no HTML servido.
 
 ## Rodar localmente
 

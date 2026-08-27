@@ -12,7 +12,8 @@ Site estático satírico no ar em **https://detoken.bitbeagle.com**. É um app-p
 2. **Um arquivo só.** CSS e JS ficam dentro do `index.html`. As únicas exceções já existentes: `sw.js` (service worker precisa ser arquivo separado) e o `manifest.webmanifest`.
 3. **Nada de bibliotecas externas por CDN.** Só a fonte JetBrains Mono do Google Fonts, que já está lá.
 4. **O tom é o produto.** Sarcástico, seco, autodepreciativo, em português. O app fala como um terminal que perdeu a paciência. Metáforas de programador (`git`, `sudo`, `/dev/null`, `:q!`, `Ctrl+C`) como etapas de cura. Sem emojis. Se uma mudança deixa o texto mais "profissional" e menos engraçado, ela piorou o app.
-5. **Toda funcionalidade é inútil de propósito.** Não conserte isso.
+5. **Em modo demonstração, toda funcionalidade é inútil de propósito.** Não conserte isso. O que é útil de verdade vive no Modo Real, descrito abaixo.
+6. **Tom por camada:** sarcasmo no cenário e nos números; tom seco e respeitoso nos momentos de registro, recaída e meta. Ninguém quer deboche depois de recair às 3h.
 
 ## Paleta e tipografia
 
@@ -22,6 +23,16 @@ Site estático satírico no ar em **https://detoken.bitbeagle.com**. É um app-p
 --claude #D97757 (laranja do mascote)   --drool #7CE37C (a baba)
 ```
 Fonte: JetBrains Mono em tudo. Mobile-first, 390×844; no desktop o app aparece dentro de uma moldura de iPhone (media query `min-width:760px`).
+
+## As duas camadas
+
+O app tem **modo demonstração** (o padrão, com números fictícios) e **Modo Real** (dados da pessoa). A classe `.real` no `#app` alterna os dois; no CSS, `.only-demo` e `.only-real` mostram ou escondem cada bloco. **A primeira visita é sempre demo** — quem chegou pela piada vê a piada.
+
+Estado do Modo Real: objeto `R`, salvo em `localStorage` na chave `detoken_real_v1`. Campos: `on`, `nome`, `inicio`, `recorde`, `recaidas[]`, `ideias[]`, `assinaturas[]`, `valorHora`, `sessoes[]`, `pausas{total,desistiu}`, `substituicoes[]`, `meta`, `plano`, `contou`, `eventos[]`, `marcos{}`.
+
+Regra dura: **ninguém pode perder streak por causa de mudança nossa.** Se mexer na estrutura de `R`, escreva a migração.
+
+Os 12 commits, no Modo Real, são destravados pelo array `MARCOS` — cada um tem uma condição verificável (`c()`) e a descrição do que falta (`d`). Não transforme marco em clique.
 
 ## Mapa do `index.html`
 
@@ -34,6 +45,7 @@ Procure por estes comentários, nesta ordem:
 - `/* ================= navegação ================= */` — `go('home'|'soro'|'log'|'recaida'|'commits'|'config')` e `PATHS` (o prompt que aparece na barra de cima de cada tela).
 - Depois, uma seção por tela: home (`render()`, `commit()`, `relapse()`, `key()`), soro (`scene()`, `flow()`, `pullIv()`), terminal (`stream()`, `panic()`), recaída (`confess()`), commits (`sponsor()`), config (array `FEAT`).
 - `/* ================= PWA ================= */` — registro do service worker e `installApp()`.
+- `/* ================= CAMADA REAL ================= */` — objeto `R`, `renderReal()`, `MARCOS`, a pausa de 10 s (`abrirPausa`), a folha de registro (`sheet()`), cofre de ideias, assinaturas, export/import.
 
 ## Como testar
 
@@ -66,5 +78,6 @@ O conteúdo de `public/` vai inteiro para o `public_html` na Hostinger (Gerencia
 ## O que não fazer
 
 - Não adicionar analytics, cookie banner, formulário de e-mail ou qualquer coisa que colete dados. O app tem zero usuários e essa é a graça.
-- Não "consertar" os números fake para serem reais.
+- Não "consertar" os números fake do modo demonstração para serem reais — o lugar do dado real é o Modo Real.
+- Não coletar campo que nenhuma tela usa.
 - Não criar outro app para resolver um problema deste app.
